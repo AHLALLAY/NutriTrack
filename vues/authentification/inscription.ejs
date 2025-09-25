@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= titre || 'Inscription - NutriTrack' %></title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Configuration Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nutri-green': '#10B981',
+                        'nutri-blue': '#3B82F6',
+                        'nutri-gray': '#6B7280'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-white to-blue-50 min-h-screen">
+    
+    <!-- Messages de notification -->
+    <% if (typeof erreur !== 'undefined' && erreur) { %>
+        <div class="fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg z-50" id="message-erreur">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <span><%= erreur %></span>
+                <button onclick="fermerMessage('message-erreur')" class="ml-4 text-red-500 hover:text-red-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    <% } %>
+    
+    <% if (typeof succes !== 'undefined' && succes) { %>
+        <div class="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50" id="message-succes">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                <span><%= succes %></span>
+                <button onclick="fermerMessage('message-succes')" class="ml-4 text-green-500 hover:text-green-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Contenu principal -->
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <!-- Logo et titre -->
+        <div class="text-center">
+            <div class="flex justify-center items-center mb-4">
+                <i class="fas fa-leaf text-3xl text-nutri-green mr-2"></i>
+                <h1 class="text-3xl font-bold text-gray-900">NutriTrack</h1>
+            </div>
+            <h2 class="text-xl text-gray-600">Bienvenue sur NutriTrack</h2>
+            <p class="text-sm text-gray-500 mt-2">Votre assistant nutritionnel intelligent</p>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <!-- Onglets -->
+            <div class="flex mb-6">
+                <button onclick="window.location.href='/connexion'" 
+                        class="flex-1 py-2 px-4 text-center font-medium rounded-l-lg border-b-2 ${ongletActif === 'connexion' ? 'border-nutri-green text-nutri-green' : 'border-gray-200 text-gray-500 hover:text-gray-700'}">
+                    Connexion
+                </button>
+                <button onclick="window.location.href='/inscription'" 
+                        class="flex-1 py-2 px-4 text-center font-medium rounded-r-lg border-b-2 ${ongletActif === 'inscription' ? 'border-nutri-green text-nutri-green' : 'border-gray-200 text-gray-500 hover:text-gray-700'}">
+                    Inscription
+                </button>
+            </div>
+
+            <!-- Titre du formulaire -->
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Créer un compte</h3>
+                <p class="text-sm text-gray-600 mt-2">Renseignez vos informations d'utilisateur valides.</p>
+            </div>
+
+            <!-- Formulaire d'inscription -->
+            <form action="/inscription" method="POST" class="space-y-6">
+                <!-- Nom complet -->
+                <div>
+                    <label for="nomComplet" class="block text-sm font-medium text-gray-700 mb-2">
+                        Nom complet
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        <input type="text" 
+                               id="nomComplet" 
+                               name="nomComplet" 
+                               required
+                               placeholder="Votre nom"
+                               class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nutri-green focus:border-nutri-green transition-colors">
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                        Email
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               required
+                               placeholder="votre@email.com"
+                               class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nutri-green focus:border-nutri-green transition-colors">
+                    </div>
+                </div>
+
+                <!-- Mot de passe -->
+                <div>
+                    <label for="motDePasse" class="block text-sm font-medium text-gray-700 mb-2">
+                        Mot de passe
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" 
+                               id="motDePasse" 
+                               name="motDePasse" 
+                               required
+                               placeholder="*****"
+                               class="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nutri-green focus:border-nutri-green transition-colors">
+                        <button type="button" 
+                                onclick="togglePassword('motDePasse')"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Le mot de passe doit contenir au moins 6 caractères</p>
+                </div>
+
+                <!-- Bouton d'inscription -->
+                <button type="submit" 
+                        class="w-full bg-nutri-green text-white py-3 px-4 rounded-lg font-medium hover:bg-green-600 focus:ring-2 focus:ring-nutri-green focus:ring-offset-2 transition-colors">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Créer mon compte
+                </button>
+            </form>
+
+            <!-- Lien vers la connexion -->
+            <div class="text-center mt-6">
+                <p class="text-sm text-gray-600">
+                    Déjà un compte ? 
+                    <a href="/connexion" class="text-nutri-green hover:text-green-600 font-medium">
+                        Se connecter
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fonction pour afficher/masquer le mot de passe
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = input.nextElementSibling.querySelector('i');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // Validation en temps réel
+    document.getElementById('motDePasse').addEventListener('input', function() {
+        const motDePasse = this.value;
+        const message = this.nextElementSibling.nextElementSibling;
+        
+        if (motDePasse.length > 0 && motDePasse.length < 6) {
+            message.textContent = 'Le mot de passe doit contenir au moins 6 caractères';
+            message.className = 'text-xs text-red-500 mt-1';
+        } else if (motDePasse.length >= 6) {
+            message.textContent = 'Mot de passe valide';
+            message.className = 'text-xs text-green-500 mt-1';
+        } else {
+            message.textContent = 'Le mot de passe doit contenir au moins 6 caractères';
+            message.className = 'text-xs text-gray-500 mt-1';
+        }
+    });
+</script>
+    </div>
+</div>
+
+<!-- Scripts JavaScript -->
+<script src="/js/app.js"></script>
+
+<script>
+    // Fermer les messages de notification
+    function fermerMessage(id) {
+        const message = document.getElementById(id);
+        if (message) {
+            message.style.opacity = '0';
+            setTimeout(() => {
+                message.remove();
+            }, 300);
+        }
+    }
+
+    // Fermer automatiquement les messages après 5 secondes
+    setTimeout(() => {
+        const messages = document.querySelectorAll('[id^="message-"]');
+        messages.forEach(message => {
+            message.style.opacity = '0';
+            setTimeout(() => {
+                message.remove();
+            }, 300);
+        });
+    }, 5000);
+
+    // Fonction pour afficher/masquer le mot de passe
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = input.nextElementSibling.querySelector('i');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // Validation en temps réel
+    document.getElementById('motDePasse').addEventListener('input', function() {
+        const motDePasse = this.value;
+        const message = this.nextElementSibling.nextElementSibling;
+        
+        if (motDePasse.length > 0 && motDePasse.length < 6) {
+            message.textContent = 'Le mot de passe doit contenir au moins 6 caractères';
+            message.className = 'text-xs text-red-500 mt-1';
+        } else if (motDePasse.length >= 6) {
+            message.textContent = 'Mot de passe valide';
+            message.className = 'text-xs text-green-500 mt-1';
+        } else {
+            message.textContent = 'Le mot de passe doit contenir au moins 6 caractères';
+            message.className = 'text-xs text-gray-500 mt-1';
+        }
+    });
+</script>
+</body>
+</html>
