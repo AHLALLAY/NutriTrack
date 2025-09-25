@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord - NutriTrack</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS personnalisé -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Configuration Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nutri-green': '#10B981',
+                        'nutri-blue': '#3B82F6',
+                        'nutri-gray': '#6B7280'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-white to-blue-50 min-h-screen">
+    
+    <!-- Messages de notification -->
+    <% if (typeof erreur !== 'undefined' && erreur) { %>
+        <div class="fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg z-50" id="message-erreur">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <span><%= erreur %></span>
+                <button onclick="fermerMessage('message-erreur')" class="ml-4 text-red-500 hover:text-red-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    <% } %>
+    
+    <% if (typeof succes !== 'undefined' && succes) { %>
+        <div class="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50" id="message-succes">
+            <div class="flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                <span><%= succes %></span>
+                <button onclick="fermerMessage('message-succes')" class="ml-4 text-green-500 hover:text-green-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Contenu principal -->
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <!-- Logo et titre -->
+            <div class="text-center">
+                <div class="flex justify-center items-center mb-4">
+                    <i class="fas fa-leaf text-3xl text-nutri-green mr-2"></i>
+                    <h1 class="text-3xl font-bold text-gray-900">NutriTrack</h1>
+                </div>
+                <h2 class="text-xl text-gray-600">Tableau de Bord</h2>
+                <p class="text-sm text-gray-500 mt-2">Bienvenue <%= utilisateur ? utilisateur.nomComplet : 'Utilisateur' %> !</p>
+            </div>
+
+            <!-- Carte du tableau de bord -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <!-- Informations utilisateur -->
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 bg-nutri-green rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">
+                        <%= utilisateur ? utilisateur.nomComplet : 'Utilisateur' %>
+                    </h3>
+                    <p class="text-gray-600 mb-1">
+                        <%= utilisateur ? utilisateur.email : 'email@example.com' %>
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        Membre depuis <%= utilisateur ? new Date(utilisateur.dateCreation).toLocaleDateString('fr-FR') : 'aujourd\'hui' %>
+                    </p>
+                </div>
+
+                <!-- Message de bienvenue -->
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-info-circle text-green-600 mr-2"></i>
+                        <p class="text-green-800 text-sm">
+                            Votre tableau de bord NutriTrack est prêt ! 
+                            Les fonctionnalités avancées seront bientôt disponibles.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bouton de déconnexion -->
+                <div class="text-center">
+                    <form action="/deconnexion" method="POST" class="inline-block">
+                        <button type="submit" 
+                                class="bg-red-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            Se déconnecter
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Informations supplémentaires -->
+            <div class="text-center">
+                <p class="text-xs text-gray-500">
+                    NutriTrack - Assistant Nutritionnel Personnalisé
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript -->
+    <script src="/js/app.js"></script>
+    
+    <script>
+        // Fermer les messages de notification
+        function fermerMessage(id) {
+            const message = document.getElementById(id);
+            if (message) {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            }
+        }
+
+        // Fermer automatiquement les messages après 5 secondes
+        setTimeout(() => {
+            const messages = document.querySelectorAll('[id^="message-"]');
+            messages.forEach(message => {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
