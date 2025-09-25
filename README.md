@@ -18,7 +18,7 @@ Scripts utiles:
 - Créez une branche depuis `master`:
 ```bash
 git checkout master && git pull
-git checkout -b feature/<nom-court>
+git checkout -b username/feature
 ```
 - Avant PR: rebase sur `master` et résolvez les conflits
 ```bash
