@@ -1,12 +1,11 @@
 const mysql = require('mysql2/promise');
-// require('dotenv').config();
 
 // Configuration de la connexion à la base de données
 const configDB = {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
+    host: process.env.DB_HOST || '',
+    user: process.env.DB_USERNAME || '',
     password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'nutritrack',
+    database: process.env.DB_NAME || '',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
