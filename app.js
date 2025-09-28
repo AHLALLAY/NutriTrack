@@ -11,10 +11,10 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'secret-par-defaut',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } // 24 heures
+    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
 }));
 
-// Middleware pour parser les données
+// Parser les données
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -22,25 +22,26 @@ app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'vues'));
 
-// Assets statiques
+// Fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware pour gérer les sessions
+// Middleware pour les sessions
 const { gererSession } = require('./middleware/session');
 app.use(gererSession);
 
-// Import des routes
+// Routes
 const authentificationRoutes = require('./routes/authentification');
+const profilRoutes = require('./routes/profil');
 
-// Utilisation des routes
 app.use('/', authentificationRoutes);
+app.use('/', profilRoutes);
 
-// Route par défaut
+// Page d'accueil
 app.get('/', (req, res) => {
     res.redirect('/connexion');
 });
 
-// Gestion des erreurs 404
+// Page 404
 app.use((req, res) => {
     res.status(404).render('erreur', { 
         titre: 'Page non trouvée',
@@ -48,7 +49,6 @@ app.use((req, res) => {
     });
 });
 
-// Gestion des erreurs serveur
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).render('erreur', { 
@@ -57,7 +57,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Démarrage du serveur
 app.listen(PORT, () => {
     console.log(`🚀 NutriTrack démarré sur le port ${PORT}`);
     console.log(`📱 Accédez à l'application : http://localhost:${PORT}`);
