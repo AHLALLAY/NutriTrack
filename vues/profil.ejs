@@ -240,7 +240,7 @@
                                 <span class="text-sm font-medium text-gray-700"><%= profil.progression.difference %>kg restants</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                                <div class="bg-nutri-green h-2 rounded-full" style="width: <%= profil.progression.progression %>%"></div>
+                                <div class="bg-nutri-green h-2 rounded-full progress-bar" data-progress="<%= profil.progression.progression %>"></div>
                             </div>
                         </div>
                         
@@ -393,7 +393,7 @@
                                 <span class="text-sm text-gray-500"><%= profil.progression.difference %>kg restants</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                                <div class="bg-nutri-green h-2 rounded-full" style="width: <%= profil.progression.progression %>%"></div>
+                                <div class="bg-nutri-green h-2 rounded-full progress-bar" data-progress="<%= profil.progression.progression %>"></div>
                             </div>
                         </div>
                         
@@ -456,6 +456,15 @@
                         return;
                     }
                 });
+            });
+
+            // Appliquer les styles de progression
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const progress = bar.getAttribute('data-progress');
+                if (progress) {
+                    bar.style.width = progress + '%';
+                }
             });
         });
     </script>
