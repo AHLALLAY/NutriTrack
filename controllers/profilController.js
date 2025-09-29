@@ -1,5 +1,6 @@
 const Profil = require('../models/profil');
 const Utilisateur = require('../models/utilisateur');
+const Objectif = require('../models/objectif');
 
 const profilController = {
     afficherProfil: async (req, res) => {
@@ -18,15 +19,13 @@ const profilController = {
     },
     afficherObjectifs: async (req, res) => {
         const utilisateurId = req.session.utilisateur.id;
-        const profil = await Profil.trouverParUtilisateur(utilisateurId);
-        const statistiques = await Profil.obtenirStatistiques(utilisateurId);
+        const objectif = await Objectif.trouverParUtilisateur(utilisateurId);
         const utilisateur = await Utilisateur.trouverParId(utilisateurId);
         
         res.render('profil', {
             titre: 'Objectifs - NutriTrack',
             utilisateur: utilisateur.obtenirDonneesPubliques(),
-            profil: profil ? profil.obtenirDonneesPubliques() : null,
-            statistiques: statistiques,
+            objectif: objectif ? objectif.obtenirDonneesPubliques() : null,
             ongletActif: 'objectifs'
         });
     },
@@ -52,7 +51,6 @@ const profilController = {
 
         const besoins = calculerBesoinsNutritionnels(poids, taille, age, activitePhysique, typeProfil, objectifPoids);
 
-        // Préparer les données
         const donneesProfil = {
             typeProfil: typeProfil || 'perte_poids',
             objectif: objectifPoids ? `Atteindre ${objectifPoids}kg` : '',
@@ -83,7 +81,6 @@ function calculerBesoinsNutritionnels(poids, taille, age, activitePhysique, type
         metabolismeBase = 10 * poids + 6.25 * taille - 5 * age + 5;
     }
 
-    // Facteur d'activité
     let facteurActivite = 1.55; 
     if (activitePhysique === 'sedentaire') facteurActivite = 1.2;
     if (activitePhysique === 'leger') facteurActivite = 1.375;
@@ -106,12 +103,10 @@ function calculerBesoinsNutritionnels(poids, taille, age, activitePhysique, type
         calories = calories + 200;
     }
 
-    // Minimum 1200 calories
     if (calories < 1200) {
         calories = 1200;
     }
-
-    // Calculer les macronutriments
+  
     const proteines = Math.round(poids * 1.6);
     const lipides = Math.round(calories * 0.25 / 9);
     const glucides = Math.round(calories * 0.55 / 4);

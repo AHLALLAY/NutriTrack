@@ -1,3 +1,4 @@
+
 <!-- Header avec retour -->
 <div class="flex justify-between items-center mb-8">
     <div class="flex items-center">
@@ -5,46 +6,44 @@
             <div class="w-8 h-8 bg-gray-100 hover:bg-green-100 rounded-lg flex items-center justify-center mr-3">
                 <i class="ri-arrow-left-line text-sm"></i>
             </div>
-            <span class="font-medium">Retour</span>
-        </a>
-    </div>
-</div>
-
-<!-- Titre -->
-<div class="text-center mb-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">Profil & Objectifs</h1>
-    <p class="text-[#64748B]">Personnalisez votre expérience NutriTrack</p>
-</div>
-
-<!-- Onglets -->
-<div class="w-full mb-8">
-    <div class="flex bg-[#F8FAFC] rounded-full p-1 w-full">
-        <a href="/profil"
-            class="flex-1 px-6 py-3 rounded-full text-sm font-medium text-center <%= ongletActif === 'profil' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900' %>">
-            Profil
-        </a>
-        <a href="/profil/objectifs"
-            class="flex-1 px-6 py-3 rounded-full text-sm font-medium text-center <%= ongletActif === 'objectifs' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900' %>">
-            Objectifs
-        </a>
-    </div>
-</div>
-
-<!-- Contenu desktop -->
-<div class="hidden lg:grid grid-cols-3 gap-8">
-
-    <!-- Informations personnelles -->
-    <div
-        class="bg-white border border-[#E2E8F0] rounded-[16px] p-6 hover:scale-105 transition-transform duration-500 ease-in-out">
-        <div class="flex items-center mb-28">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                <i class="ri-user-line text-[#1F2937] text-[20px]"></i>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900">Informations personnelles</h3>
         </div>
 
-        <div class="space-y-3">
-            <div class="text-center">
+        <!-- Titre -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Profil & Objectifs</h1>
+            <p class="text-[#64748B]">Personnalisez votre expérience NutriTrack</p>
+        </div>
+
+        <!-- Onglets -->
+        <div class="w-full mb-8">
+            <div class="flex bg-[#F8FAFC] rounded-full p-1 w-full">
+        <a href="/profil"
+            class="flex-1 px-6 py-3  text-sm font-medium text-center <%= ongletActif === 'profil' ? 'bg-nutri-green rounded-full text-white shadow-sm' : 'bg-white rounded-l-full text-gray-600 hover:text-gray-900' %>">
+                    Profil
+                </a>
+        <a href="/profil/objectifs"
+            class="flex-1 px-6 py-3  text-sm font-medium text-center <%= ongletActif === 'objectifs' ? 'bg-nutri-green rounded-full text-white shadow-sm' : 'bg-white rounded-r-full text-gray-600 hover:text-gray-900' %>">
+                    Objectifs
+                </a>
+            </div>
+        </div>
+
+        <!-- Contenu desktop -->
+<% if (ongletActif === 'profil') { %>
+        <div class="hidden lg:grid grid-cols-3 gap-8">
+            
+            <!-- Informations personnelles -->
+    <div
+        class="bg-white border border-[#E2E8F0] rounded-[16px] p-6 hover:scale-105 transition-transform duration-500 ease-in-out">
+                <div class="flex items-center mb-28">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                        <i class="ri-user-line text-[#1F2937] text-[20px]"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Informations personnelles</h3>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="text-center">
                 <p class="text-[#1F2937] mb-4 font-bold text-xl">
                     <%= utilisateur.nomComplet %>
                 </p>
@@ -53,75 +52,75 @@
                 </p>
                 <p
                     class="inline-block px-4 font-semibold py-1 rounded-full bg-emerald-500/10 text-[#10B981] text-sm mt-2">
-                    Membre depuis <%= new Date(utilisateur.dateCreation).toLocaleDateString('fr-FR') %>
-                </p>
-            </div>
-        </div>
+                            Membre depuis <%= new Date(utilisateur.dateCreation).toLocaleDateString('fr-FR') %>
+                        </p>
+                    </div>
+                </div>
 
-        <!-- Statistiques -->
-        <div class="mt-12 pt-6 ">
-            <div class="grid grid-cols-2 gap-4">
-                <div class="text-center bg-[#F8FAFC] p-4 rounded-[12px]">
+                <!-- Statistiques -->
+                <div class="mt-12 pt-6 ">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center bg-[#F8FAFC] p-4 rounded-[12px]">
                     <div class="text-3xl font-bold text-[#10B981]">
                         <%= statistiques.joursConsecutifs %>
                     </div>
-                    <div class="text-md text-[#64748B]">Jours consécutifs</div>
-                </div>
-                <div class="text-center bg-[#F8FAFC] p-4 rounded-[12px]">
+                            <div class="text-md text-[#64748B]">Jours consécutifs</div>
+                        </div>
+                        <div class="text-center bg-[#F8FAFC] p-4 rounded-[12px]">
                     <div class="text-3xl font-bold text-nutri-blue">
                         <%= statistiques.repasAnalyses %>
                     </div>
-                    <div class="text-md text-[#64748B]">Repas analysés</div>
+                            <div class="text-md text-[#64748B]">Repas analysés</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Données physiques -->
+            <!-- Données physiques -->
     <div
         class="bg-white border border-[#E2E8F0] rounded-[16px] p-6 hover:scale-105 transition-transform duration-500 ease-in-out transition-transform duration-500 ease-in-out">
-        <div class="flex items-center mb-4">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                <i class="ri-pulse-fill text-[#1F2937] text-[20px]"></i>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900">Données physiques</h3>
-        </div>
-
-        <form id="profilForm" action="/profil/mise-a-jour" method="POST" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-[#1F2937] mb-1">Âge</label>
-                <input type="number" name="age" value="<%= profil ? profil.age : '' %>"
-                    class="w-full px-3 py-2 border border-gray-300 text-[#64748B] rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
-                    placeholder="Âge" min="10" max="120">
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-[#1F2937] mb-1">Taille (cm)</label>
-                    <input type="number" name="taille" value="<%= profil ? profil.taille : '' %>"
-                        class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
-                        placeholder="Taille" min="100" max="250" step="0.1">
+                <div class="flex items-center mb-4">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                        <i class="ri-pulse-fill text-[#1F2937] text-[20px]"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Données physiques</h3>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-[#1F2937] mb-1">Poids (kg)</label>
-                    <input type="number" name="poids" value="<%= profil ? profil.poids : '' %>"
-                        class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
-                        placeholder="Poids" min="30" max="300" step="0.1">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-[#1F2937] mb-1">Objectif de poids (kg)</label>
+                
+                <form id="profilForm" action="/profil/mise-a-jour" method="POST" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-[#1F2937] mb-1">Âge</label>
+                        <input type="number" name="age" value="<%= profil ? profil.age : '' %>" 
+                    class="w-full px-3 py-2 border focus:outline-none border-gray-300 text-[#64748B] rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
+                               placeholder="Âge" min="10" max="120">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-[#1F2937] mb-1">Taille (cm)</label>
+                            <input type="number" name="taille" value="<%= profil ? profil.taille : '' %>" 
+                        class="w-full px-3 py-2 border focus:outline-none text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
+                                   placeholder="Taille" min="100" max="250" step="0.1">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[#1F2937] mb-1">Poids (kg)</label>
+                            <input type="number" name="poids" value="<%= profil ? profil.poids : '' %>" 
+                        class="w-full px-3 py-2 border focus:outline-none text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
+                                   placeholder="Poids" min="30" max="300" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-[#1F2937] mb-1">Objectif de poids (kg)</label>
                 <input type="number" name="objectifPoids"
                     value="<%= profil && profil.progression ? profil.progression.poidsObjectif : '' %>"
-                    class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
-                    placeholder="Objectif" min="30" max="300" step="0.1">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-[#1F2937] mb-1">Type de profil</label>
+                    class="w-full px-3 py-2 border focus:outline-none text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
+                               placeholder="Objectif" min="30" max="300" step="0.1">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-[#1F2937] mb-1">Type de profil</label>
                 <select name="typeProfil"
-                    class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green">
+                    class="w-full px-3 py-2 border text-[#64748B] focus:outline-none border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green">
                     <option value="perte_poids" <%=profil && profil.typeProfil==='perte_poids' ? 'selected' : '' %>
                         >Perte de poids</option>
                     <option value="prise_masse" <%=profil && profil.typeProfil==='prise_masse' ? 'selected' : '' %>
@@ -134,13 +133,13 @@
                     </option>
                     <option value="athlete" <%=profil && profil.typeProfil==='athlete' ? 'selected' : '' %>>Athlète
                     </option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-[#1F2937] mb-1">Niveau d'activité</label>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-[#1F2937] mb-1">Niveau d'activité</label>
                 <select name="activitePhysique"
-                    class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green">
+                    class="w-full px-3 py-2 border text-[#64748B] focus:outline-none border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green">
                     <option value="sedentaire" <%=profil && profil.activitePhysique==='sedentaire' ? 'selected' : '' %>
                         >Sédentaire</option>
                     <option value="leger" <%=profil && profil.activitePhysique==='leger' ? 'selected' : '' %>>Léger
@@ -151,95 +150,97 @@
                         >Intense</option>
                     <option value="tres_intense" <%=profil && profil.activitePhysique==='tres_intense' ? 'selected' : ''
                         %>>Très intense</option>
-                </select>
-            </div>
-
+                        </select>
+                    </div>
+                    
             <button type="submit"
                 class="w-full bg-nutri-green text-white py-2 px-4 rounded-[16px] hover:bg-green-600 shadow-md">
-                <i class="ri-save-line mr-2"></i>Sauvegarder
-            </button>
-        </form>
-    </div>
+                        <i class="ri-save-line mr-2"></i>Sauvegarder
+                    </button>
+                </form>
+            </div>
 
-    <!-- Progression -->
+            <!-- Progression -->
     <div
         class="bg-white border border-[#E2E8F0] rounded-[16px] p-6 hover:scale-105 transition-transform duration-500 ease-in-out">
-        <div class="flex items-center mb-4">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                <i class="ri-focus-2-line text-[#1F2937] text-[20px]"></i>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900">Progression</h3>
-        </div>
-
-        <% if (profil && profil.progression) { %>
-            <div class="space-y-10">
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-md text-gray-700">Objectif de poids</span>
+                <div class="flex items-center mb-4">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                        <i class="ri-focus-2-line text-[#1F2937] text-[20px]"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Progression</h3>
+                </div>
+                
+                <% if (profil && profil.progression) { %>
+                    <div class="space-y-10">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-md text-gray-700">Objectif de poids</span>
                         <span class="text-sm font-medium text-gray-700">
                             <%= profil.progression.difference %>kg restants
                         </span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                         <div class="bg-nutri-green h-2 rounded-full progress-bar"
                             data-progress="<%= profil.progression.progression %>"></div>
-                    </div>
-                </div>
-
-                <div class="space-y-10">
-                    <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
-                        <div class="flex items-center">
-                            <i class="ri-scales-line text-[16px] text-green-500 mr-3"></i>
-                            <span class="text-sm text-gray-700">Poids actuel:</span>
+                            </div>
                         </div>
+                        
+                        <div class="space-y-10">
+                            <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
+                                <div class="flex items-center">
+                                    <i class="ri-scales-line text-[16px] text-green-500 mr-3"></i>
+                                    <span class="text-sm text-gray-700">Poids actuel:</span>
+                                </div>
                         <strong class="text-sm text-gray-700">
                             <%= profil.poids %>kg
                         </strong>
-                    </div>
-                    <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
-                        <div class="flex items-center">
-                            <i class="ri-focus-2-line text-[16px] text-blue-500 mr-3"></i>
-                            <span class="text-sm text-gray-700">Objectif:</span>
-                        </div>
+                            </div>
+                            <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
+                                <div class="flex items-center">
+                                    <i class="ri-focus-2-line text-[16px] text-blue-500 mr-3"></i>
+                                    <span class="text-sm text-gray-700">Objectif:</span>
+                                </div>
                         <strong class="text-sm text-gray-700">
                             <%= profil.progression.poidsObjectif %>kg
                         </strong>
-                    </div>
-                    <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
-                        <div class="flex items-center">
-                            <i class="ri-ruler-line text-[16px] text-orange-500 mr-3"></i>
-                            <span class="text-sm text-gray-700">IMC:</span>
-                        </div>
+                            </div>
+                            <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
+                                <div class="flex items-center">
+                                    <i class="ri-ruler-line text-[16px] text-orange-500 mr-3"></i>
+                                    <span class="text-sm text-gray-700">IMC:</span>
+                                </div>
                         <strong class="text-sm text-gray-700">
                             <%= profil.bmi %>
                         </strong>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <% } else { %>
-                <div class="text-center py-8">
-                    <i class="ri-line-chart-line text-6xl text-gray-300 mb-6"></i>
-                    <p class="text-gray-500">Complétez vos données physiques pour voir votre progression</p>
-                </div>
+                <% } else { %>
+                    <div class="text-center py-8">
+                        <i class="ri-line-chart-line text-6xl text-gray-300 mb-6"></i>
+                        <p class="text-gray-500">Complétez vos données physiques pour voir votre progression</p>
+                    </div>
                 <% } %>
-    </div>
-</div>
+            </div>
+        </div>
+<% } %>
 
-<!-- Contenu mobile -->
-<div class="lg:hidden space-y-6">
-
-    <!-- Informations personnelles -->
+        <!-- Contenu mobile -->
+<% if (ongletActif === 'profil') { %>
+        <div class="lg:hidden space-y-6">
+            
+            <!-- Informations personnelles -->
     <div
         class="bg-white border border-[#E2E8F0] rounded-[16px] p-6 hover:scale-105 transition-transform duration-500 ease-in-out">
-        <div class="flex items-center mb-4">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                <i class="ri-user-line text-[#1F2937] text-[20px]"></i>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900">Informations personnelles</h3>
-        </div>
-
-        <div class="space-y-3">
-            <div class="text-center">
+                <div class="flex items-center mb-4">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                        <i class="ri-user-line text-[#1F2937] text-[20px]"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Informations personnelles</h3>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="text-center">
                 <p class="text-[#1F2937] font-bold text-lg">
                     <%= utilisateur.nomComplet %>
                 </p>
@@ -249,73 +250,73 @@
                 <p class="text-nutri-green text-sm mt-2">Membre depuis <%= new
                         Date(utilisateur.dateCreation).toLocaleDateString('fr-FR') %>
                 </p>
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <!-- Statistiques -->
-        <div class="mt-8 pt-6 border-t border-gray-100 hover:scale-105 transition-transform duration-500 ease-in-out">
-            <div class="grid grid-cols-2 gap-6">
-                <div class="text-center bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4">
+                <!-- Statistiques -->
+                <div class="mt-8 pt-6 border-t border-gray-100 hover:scale-105 transition-transform duration-500 ease-in-out">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4">
                     <div class="text-3xl font-bold text-nutri-green mb-1">
                         <%= statistiques.joursConsecutifs %>
                     </div>
-                    <div class="text-sm text-gray-600 font-medium">Jours consécutifs</div>
-                </div>
-                <div class="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4">
+                            <div class="text-sm text-gray-600 font-medium">Jours consécutifs</div>
+                        </div>
+                        <div class="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4">
                     <div class="text-3xl font-bold text-nutri-blue mb-1">
                         <%= statistiques.repasAnalyses %>
                     </div>
-                    <div class="text-sm text-gray-600 font-medium">Repas analysés</div>
+                            <div class="text-sm text-gray-600 font-medium">Repas analysés</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Données physiques -->
+            <!-- Données physiques -->
     <div
         class="bg-white border border-[#E2E8F0] rounded-[16px] p-6 hover:scale-105 transition-transform duration-500 ease-in-out">
-        <div class="flex items-center mb-6">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                <i class="ri-pulse-fill text-[#1F2937] text-[20px]"></i>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900">Données physiques</h3>
-        </div>
-
-        <form id="profilFormMobile" action="/profil/mise-a-jour" method="POST" class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Âge</label>
-                <input type="number" name="age" value="<%= profil ? profil.age : '' %>"
-                    class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
-                    placeholder="Âge" min="10" max="120">
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Taille (cm)</label>
-                    <input type="number" name="taille" value="<%= profil ? profil.taille : '' %>"
-                        class="w-full px-3 py-2 border text-[#64748B]  border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
-                        placeholder="Taille" min="100" max="250" step="0.1">
+                <div class="flex items-center mb-6">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                        <i class="ri-pulse-fill text-[#1F2937] text-[20px]"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Données physiques</h3>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Poids (kg)</label>
-                    <input type="number" name="poids" value="<%= profil ? profil.poids : '' %>"
-                        class="w-full px-3 py-2 border text-[#64748B]  border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
-                        placeholder="Poids" min="30" max="300" step="0.1">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Objectif de poids (kg)</label>
+                
+                <form id="profilFormMobile" action="/profil/mise-a-jour" method="POST" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Âge</label>
+                        <input type="number" name="age" value="<%= profil ? profil.age : '' %>" 
+                    class="w-full px-3 py-2 border focus:outline-none text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
+                               placeholder="Âge" min="10" max="120">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Taille (cm)</label>
+                            <input type="number" name="taille" value="<%= profil ? profil.taille : '' %>" 
+                        class="w-full px-3 py-2 border focus:outline-none text-[#64748B]  border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
+                                   placeholder="Taille" min="100" max="250" step="0.1">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Poids (kg)</label>
+                            <input type="number" name="poids" value="<%= profil ? profil.poids : '' %>" 
+                        class="w-full px-3 py-2 border focus:outline-none text-[#64748B]  border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
+                                   placeholder="Poids" min="30" max="300" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Objectif de poids (kg)</label>
                 <input type="number" name="objectifPoids"
                     value="<%= profil && profil.progression ? profil.progression.poidsObjectif : '' %>"
-                    class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
-                    placeholder="Objectif" min="30" max="300" step="0.1">
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Type de profil</label>
+                    class="w-full px-3 py-2 border focus:outline-none text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green"
+                               placeholder="Objectif" min="30" max="300" step="0.1">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Type de profil</label>
                 <select name="typeProfil"
-                    class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green">
+                    class="w-full px-3 py-2 border focus:outline-none text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green">
                     <option value="perte_poids" <%=profil && profil.typeProfil==='perte_poids' ? 'selected' : '' %>
                         >Perte de poids</option>
                     <option value="prise_masse" <%=profil && profil.typeProfil==='prise_masse' ? 'selected' : '' %>
@@ -328,13 +329,13 @@
                     </option>
                     <option value="athlete" <%=profil && profil.typeProfil==='athlete' ? 'selected' : '' %>>Athlète
                     </option>
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Niveau d'activité</label>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Niveau d'activité</label>
                 <select name="activitePhysique"
-                    class="w-full px-3 py-2 border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green">
+                    class="w-full px-3 py-2 focus:outline-none border text-[#64748B] border-gray-300 rounded-md focus:ring-2 focus:ring-nutri-green focus:border-nutri-green">
                     <option value="sedentaire" <%=profil && profil.activitePhysique==='sedentaire' ? 'selected' : '' %>
                         >Sédentaire</option>
                     <option value="leger" <%=profil && profil.activitePhysique==='leger' ? 'selected' : '' %>>Léger
@@ -345,71 +346,337 @@
                         >Intense</option>
                     <option value="tres_intense" <%=profil && profil.activitePhysique==='tres_intense' ? 'selected' : ''
                         %>>Très intense</option>
-                </select>
+                        </select>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
 
-    <!-- Progression -->
+            <!-- Progression -->
     <div
         class="bg-white border border-[#E2E8F0] rounded-[16px] p-6 hover:scale-105 transition-transform duration-500 ease-in-out">
-        <div class="flex items-center mb-6">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                <i class="ri-focus-2-line text-[#1F2937] text-[20px]"></i>
-            </div>
-            <h3 class="text-lg font-semibold text-gray-900">Progression</h3>
-        </div>
-
-        <% if (profil && profil.progression) { %>
-            <div class="space-y-4">
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-sm font-medium text-gray-700">Objectif de poids</span>
+                <div class="flex items-center mb-6">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                        <i class="ri-focus-2-line text-[#1F2937] text-[20px]"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900">Progression</h3>
+                </div>
+                
+                <% if (profil && profil.progression) { %>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-sm font-medium text-gray-700">Objectif de poids</span>
                         <span class="text-sm text-gray-500">
                             <%= profil.progression.difference %>kg restants
                         </span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                         <div class="bg-nutri-green h-2 rounded-full progress-bar"
                             data-progress="<%= profil.progression.progression %>"></div>
-                    </div>
-                </div>
-
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
-                        <div class="flex items-center">
-                            <i class="ri-scales-line text-[16px] text-green-500 mr-3"></i>
-                            <span class="text-sm text-gray-700">Poids actuel:</span>
+                            </div>
                         </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
+                                <div class="flex items-center">
+                                    <i class="ri-scales-line text-[16px] text-green-500 mr-3"></i>
+                                    <span class="text-sm text-gray-700">Poids actuel:</span>
+                                </div>
                         <strong class="text-sm text-gray-700">
                             <%= profil.poids %>kg
                         </strong>
-                    </div>
-                    <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
-                        <div class="flex items-center">
-                            <i class="ri-focus-2-line text-[16px] text-blue-500 mr-3"></i>
-                            <span class="text-sm text-gray-700">Objectif:</span>
-                        </div>
+                            </div>
+                            <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
+                                <div class="flex items-center">
+                                    <i class="ri-focus-2-line text-[16px] text-blue-500 mr-3"></i>
+                                    <span class="text-sm text-gray-700">Objectif:</span>
+                                </div>
                         <strong class="text-sm text-gray-700">
                             <%= profil.progression.poidsObjectif %>kg
                         </strong>
-                    </div>
-                    <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
-                        <div class="flex items-center">
-                            <i class="ri-ruler-line text-[16px] text-orange-500 mr-3"></i>
-                            <span class="text-sm text-gray-700">IMC:</span>
-                        </div>
+                            </div>
+                            <div class="flex items-center justify-between bg-[#F8FAFC] p-4 rounded-[12px]">
+                                <div class="flex items-center">
+                                    <i class="ri-ruler-line text-[16px] text-orange-500 mr-3"></i>
+                                    <span class="text-sm text-gray-700">IMC:</span>
+                                </div>
                         <strong class="text-sm text-gray-700">
                             <%= profil.bmi %>
                         </strong>
+                            </div>
+                        </div>
                     </div>
+                <% } else { %>
+                    <div class="text-center py-8">
+                        <i class="ri-line-chart-line text-6xl text-gray-300 mb-6"></i>
+                        <p class="text-gray-500">Complétez vos données physiques pour voir votre progression</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+<% } %>
+
+<!-- Contenu des objectifs nutritionnels -->
+<% if (ongletActif === 'objectifs') { %>
+<!-- Contenu desktop pour objectifs -->
+<div class="hidden lg:block">
+    <div class="bg-white border border-[#E2E8F0] rounded-[16px] p-8">
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center">
+                <div class="w-10 h-10 flex items-center justify-center mr-4">
+                    <i class="ri-focus-2-line text-[#1F2937] text-[30px]"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Objectifs nutritionnels quotidiens</h2>
+                    <p class="text-gray-600">Personnalisez vos objectifs selon vos besoins</p>
                 </div>
             </div>
-            <% } else { %>
-                <div class="text-center py-8">
-                    <i class="ri-line-chart-line text-6xl text-gray-300 mb-6"></i>
-                    <p class="text-gray-500">Complétez vos données physiques pour voir votre progression</p>
+            <form action="/profil/objectifs/recommandations" method="POST" class="inline">
+                <button type="submit" class="flex items-center">
+                    <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                        <i class="ri-sparkling-2-fill text-purple-600 text-lg"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900">Recommandations</span>
+                </button>
+            </form>
+        </div>
+
+        <form id="objectifsForm" action="/profil/objectifs/mise-a-jour" method="POST" class="grid grid-cols-2 gap-6">
+            <!-- Calories -->
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-lg font-semibold text-[#1F2937]">Calories</span>
+                    <span class="text-lg font-semibold text-[#1F2937]" id="caloriesValue"><%= objectif ? objectif.calories : 1800 %> kcal</span>
                 </div>
-            <% } %>
+                <input type="range" name="calories" id="caloriesSlider" 
+                       min="800" max="4000" step="50" 
+                       value="<%= objectif ? objectif.calories : 1800 %>"
+                       class="w-full h-3 rounded-lg appearance-none cursor-pointer slider"
+                       style="background: linear-gradient(to right, #10b981 0%, #10b981 50%, #e5e7eb 50%, #e5e7eb 100%);">
+            </div>
+
+            <!-- Protéines -->
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-lg font-semibold text-[#1F2937]">Protéines</span>
+                    <span class="text-lg font-semibold text-[#1F2937]" id="proteinesValue"><%= objectif ? objectif.proteines : 80 %> g</span>
+                </div>
+                <input type="range" name="proteines" id="proteinesSlider" 
+                       min="30" max="200" step="5" 
+                       value="<%= objectif ? objectif.proteines : 80 %>"
+                       class="w-full h-3 rounded-lg appearance-none cursor-pointer slider"
+                       style="background: linear-gradient(to right, #10b981 0%, #10b981 50%, #e5e7eb 50%, #e5e7eb 100%);">
+            </div>
+
+            <!-- Glucides -->
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-lg font-semibold text-[#1F2937]">Glucides</span>
+                    <span class="text-lg font-semibold text-[#1F2937]" id="glucidesValue"><%= objectif ? objectif.glucides : 200 %> g</span>
+                </div>
+                <input type="range" name="glucides" id="glucidesSlider" 
+                       min="50" max="500" step="10" 
+                       value="<%= objectif ? objectif.glucides : 200 %>"
+                       class="w-full h-3 rounded-lg appearance-none cursor-pointer slider"
+                       style="background: linear-gradient(to right, #10b981 0%, #10b981 50%, #e5e7eb 50%, #e5e7eb 100%);">
+            </div>
+
+            <!-- Lipides -->
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-lg font-semibold text-[#1F2937]">Lipides</span>
+                    <span class="text-lg font-semibold text-[#1F2937]" id="lipidesValue"><%= objectif ? objectif.lipides : 65 %> g</span>
+                </div>
+                <input type="range" name="lipides" id="lipidesSlider" 
+                       min="20" max="150" step="5" 
+                       value="<%= objectif ? objectif.lipides : 65 %>"
+                       class="w-full h-3 rounded-lg appearance-none cursor-pointer slider"
+                       style="background: linear-gradient(to right, #10b981 0%, #10b981 50%, #e5e7eb 50%, #e5e7eb 100%);">
+            </div>
+
+            <div class="col-span-2 flex justify-end pt-6">
+                <button type="submit" 
+                        class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                    <i class="ri-save-line mr-2"></i>Sauvegarder
+                </button>
+            </div>
+        </form>
     </div>
 </div>
+
+
+<!-- Contenu mobile pour objectifs -->
+<div class="lg:hidden space-y-4">
+    <div class="bg-white border border-[#E2E8F0] rounded-[16px] p-6">
+        <div class="flex items-center gap-6 justify-between mb-6">
+            <div class="flex items-center">
+                <div class="flex items-center justify-center mr-3">
+                    <i class="ri-focus-2-line text-[#1F2937] text-[30px]"></i>
+                </div>
+                <div>
+                    <h2 class="text-md font-bold text-gray-900">Objectifs nutritionnels</h2>
+                    <p class="text-sm text-gray-600">Personnalisez vos objectifs</p>
+                </div>
+            </div>
+            <form action="/profil/objectifs/recommandations" method="POST" class="inline">
+                <button type="submit" class="flex items-center text-sm ">
+                    <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
+                        <i class="ri-sparkling-2-fill text-purple-600 text-sm"></i>
+                    </div>
+                    <span class="font-semibold text-gray-900">Recommandations</span>
+                </button>
+            </form>
+        </div>
+
+        <form id="objectifsFormMobile" action="/profil/objectifs/mise-a-jour" method="POST" class="space-y-4">
+            <!-- Calories -->
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center">
+                        <i class="ri-fire-line text-orange-500 mr-2"></i>
+                        <span class="font-semibold text-gray-900">Calories</span>
+                    </div>
+                    <span class="text-xl font-bold text-orange-500" id="caloriesValueMobile"><%= objectif ? objectif.calories : 1800 %></span>
+                </div>
+                <input type="range" name="calories" id="caloriesSliderMobile" 
+                       min="800" max="4000" step="50" 
+                       value="<%= objectif ? objectif.calories : 1800 %>"
+                       class="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                       style="background: linear-gradient(to right, #10b981 0%, #10b981 50%, #e5e7eb 50%, #e5e7eb 100%);">
+            </div>
+
+            <!-- Protéines -->
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center">
+                        <i class="ri-dumbbell-line text-red-500 mr-2"></i>
+                        <span class="font-semibold text-gray-900">Protéines</span>
+                    </div>
+                    <span class="text-xl font-bold text-red-500" id="proteinesValueMobile"><%= objectif ? objectif.proteines : 80 %></span>
+                </div>
+                <input type="range" name="proteines" id="proteinesSliderMobile" 
+                       min="30" max="200" step="5" 
+                       value="<%= objectif ? objectif.proteines : 80 %>"
+                       class="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                       style="background: linear-gradient(to right, #10b981 0%, #10b981 50%, #e5e7eb 50%, #e5e7eb 100%);">
+            </div>
+
+            <!-- Glucides -->
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center">
+                        <i class="ri-bread-line text-yellow-500 mr-2"></i>
+                        <span class="font-semibold text-gray-900">Glucides</span>
+                    </div>
+                    <span class="text-xl font-bold text-yellow-500" id="glucidesValueMobile"><%= objectif ? objectif.glucides : 200 %></span>
+                </div>
+                <input type="range" name="glucides" id="glucidesSliderMobile" 
+                       min="50" max="500" step="10" 
+                       value="<%= objectif ? objectif.glucides : 200 %>"
+                       class="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                       style="background: linear-gradient(to right, #10b981 0%, #10b981 50%, #e5e7eb 50%, #e5e7eb 100%);">
+            </div>
+
+            <!-- Lipides -->
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center">
+                        <i class="ri-oil-line text-purple-500 mr-2"></i>
+                        <span class="font-semibold text-gray-900">Lipides</span>
+                    </div>
+                    <span class="text-xl font-bold text-purple-500" id="lipidesValueMobile"><%= objectif ? objectif.lipides : 65 %></span>
+                </div>
+                <input type="range" name="lipides" id="lipidesSliderMobile" 
+                       min="20" max="150" step="5" 
+                       value="<%= objectif ? objectif.lipides : 65 %>"
+                       class="w-full h-2 rounded-lg appearance-none cursor-pointer"
+                       style="background: linear-gradient(to right, #10b981 0%, #10b981 50%, #e5e7eb 50%, #e5e7eb 100%);">
+            </div>
+
+            <div class="pt-4">
+                <button type="submit" 
+                        class="w-full px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                    <i class="ri-save-line mr-2"></i>Sauvegarder
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<% } %>
+<style>
+    /* Style pour le curseur du slider */
+    input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid #10b981;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    input[type="range"]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid #10b981;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    </style>
+    
+    <script>
+    // Fonction pour mettre à jour le gradient
+    function updateSliderGradient(slider, valueDisplay) {
+        const min = parseFloat(slider.min);
+        const max = parseFloat(slider.max);
+        const value = parseFloat(slider.value);
+        
+        // Calcul du pourcentage
+        const percentage = ((value - min) / (max - min)) * 100;
+        
+        // Mise à jour du gradient (vert jusqu'à la position, gris après)
+        slider.style.background = `linear-gradient(to right, #10b981 0%, #10b981 ${percentage}%, #e5e7eb ${percentage}%, #e5e7eb 100%)`;
+        
+        // Mise à jour de la valeur affichée
+        const isMobile = slider.id.includes('Mobile');
+        if (isMobile) {
+            valueDisplay.textContent = Math.round(value);
+        } else {
+            // Pour desktop, on ajoute l'unité
+            if (slider.id.includes('calories')) {
+                valueDisplay.textContent = Math.round(value) + ' kcal';
+            } else {
+                valueDisplay.textContent = Math.round(value) + ' g';
+            }
+        }
+    }
+    
+    // Initialisation pour tous les sliders (mobile + desktop)
+    const allSliders = [
+        // Mobile
+        { slider: document.getElementById('caloriesSliderMobile'), display: document.getElementById('caloriesValueMobile') },
+        { slider: document.getElementById('proteinesSliderMobile'), display: document.getElementById('proteinesValueMobile') },
+        { slider: document.getElementById('glucidesSliderMobile'), display: document.getElementById('glucidesValueMobile') },
+        { slider: document.getElementById('lipidesSliderMobile'), display: document.getElementById('lipidesValueMobile') },
+        // Desktop
+        { slider: document.getElementById('caloriesSlider'), display: document.getElementById('caloriesValue') },
+        { slider: document.getElementById('proteinesSlider'), display: document.getElementById('proteinesValue') },
+        { slider: document.getElementById('glucidesSlider'), display: document.getElementById('glucidesValue') },
+        { slider: document.getElementById('lipidesSlider'), display: document.getElementById('lipidesValue') }
+    ];
+    
+    allSliders.forEach(({ slider, display }) => {
+        if (slider && display) {
+            // Initialisation au chargement
+            updateSliderGradient(slider, display);
+            
+            // Mise à jour lors du déplacement
+            slider.addEventListener('input', () => {
+                updateSliderGradient(slider, display);
+            });
+        }
+    });
+    </script>
