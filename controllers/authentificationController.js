@@ -1,4 +1,5 @@
 const Utilisateur = require('../models/utilisateur');
+const SessionController = require('./sessionController');
 
 const authentificationController = {
     // Afficher la page de connexion
@@ -68,8 +69,25 @@ const authentificationController = {
                 return res.redirect('/connexion');
             }
 
-            // Créer la session
+            // Vérifier et gérer les sessions existantes
+            const sessionResult = await SessionController.verifierEtGererSession(utilisateur.id);
+            
+            if (sessionResult.action === 'error') {
+                req.session.erreur = 'Erreur lors de la gestion des sessions';
+                return res.redirect('/connexion');
+            }
+
+            // Créer la session Express
             req.session.utilisateur = utilisateur.obtenirDonneesPubliques();
+
+            // Créer l'enregistrement dans la base de données
+            if (sessionResult.action === 'create') {
+                await SessionController.creerNouvelleSession(
+                    req.sessionID, 
+                    utilisateur.id, 
+                    req.session.utilisateur
+                );
+            }
 
             req.session.succes = `Bienvenue ${utilisateur.nomComplet} !`;
             res.redirect('/dashboard');
@@ -108,16 +126,28 @@ const authentificationController = {
     },
 
     // Déconnexion
-    deconnexion: (req, res) => {
-        req.session.destroy((erreur) => {
-            if (erreur) {
-                console.error('Erreur lors de la déconnexion:', erreur);
-                req.session.erreur = 'Erreur lors de la déconnexion';
-                return res.redirect('/dashboard');
+    deconnexion: async (req, res) => {
+        try {
+            // Marquer la session comme inactive avant de la détruire
+            if (req.sessionID) {
+                await SessionController.marquerSessionInactive(req.sessionID, 'logout');
             }
             
-            res.redirect('/connexion');
-        });
+            req.session.destroy((erreur) => {
+                if (erreur) {
+                    console.error('Erreur lors de la déconnexion:', erreur);
+                    req.session.erreur = 'Erreur lors de la déconnexion';
+                    return res.redirect('/dashboard');
+                }
+                
+                res.redirect('/connexion');
+            });
+        } catch (error) {
+            console.error('Erreur lors de la déconnexion:', error);
+            req.session.destroy(() => {
+                res.redirect('/connexion');
+            });
+        }
     }
 };
 
