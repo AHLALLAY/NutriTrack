@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const expressLayouts = require('express-ejs-layouts');
 const path = require('path');
 require('dotenv').config();
 
@@ -19,6 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Configuration EJS
+app.use(expressLayouts);
+app.set('layout', './layouts/layout.ejs')
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'vues'));
 
