@@ -153,6 +153,24 @@ CREATE TABLE IF NOT EXISTS objectifs_nutritionnels (
     UNIQUE KEY unique_objectif_utilisateur (utilisateur_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table pour gérer toutes les sessions
+CREATE TABLE IF NOT EXISTS sessions_express (
+    session_id VARCHAR(128) NOT NULL PRIMARY KEY,
+    expires BIGINT UNSIGNED NOT NULL,
+    data TEXT,
+    user_id INT,
+    is_active BOOLEAN DEFAULT TRUE,
+    reason VARCHAR(100) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    expired_at TIMESTAMP NULL,
+    INDEX idx_expires (expires),
+    INDEX idx_user_id (user_id),
+    INDEX idx_is_active (is_active),
+    INDEX idx_expired_at (expired_at),
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
+);
+
 -- Insertion de quelques aliments de base
 INSERT INTO aliments (nom, description, calories_par_100g, proteines_par_100g, glucides_par_100g, lipides_par_100g, fibres_par_100g, sodium_par_100g, sucre_par_100g, index_glycemique, categorie) VALUES
 ('Pomme', 'Fruit frais', 52, 0.3, 14, 0.2, 2.4, 1, 10.4, 35, 'fruits'),
