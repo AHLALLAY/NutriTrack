@@ -1,0 +1,84 @@
+<!-- Scripts JavaScript -->
+    <script src="/js/app.js"></script>
+
+    <script>
+
+        // Fonction pour afficher/masquer le mot de passe
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Fermer les messages de notification
+        function fermerMessage(id) {
+            const message = document.getElementById(id);
+            if (message) {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            }
+        }
+
+        // Fermer automatiquement les messages après 5 secondes
+        setTimeout(() => {
+            const messages = document.querySelectorAll('[id^="message-"]');
+            messages.forEach(message => {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            });
+        }, 5000);
+
+        // Fonction pour afficher/masquer le mot de passe
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Fermer les messages de notification
+        function fermerMessage(id) {
+            const message = document.getElementById(id);
+            if (message) {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            }
+        }
+
+        // Fermer automatiquement les messages après 5 secondes
+        setTimeout(() => {
+            const messages = document.querySelectorAll('[id^="message-"]');
+            messages.forEach(message => {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            });
+        }, 5000);
+    </script>
+</body>
+
+</html>
