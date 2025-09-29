@@ -138,6 +138,18 @@ CREATE TABLE IF NOT EXISTS sessions_utilisateur (
     INDEX idx_date_connexion (date_connexion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table pour stocker les sessions Express
+CREATE TABLE IF NOT EXISTS sessions_express (
+    session_id VARCHAR(128) NOT NULL PRIMARY KEY,
+    expires BIGINT UNSIGNED NOT NULL,
+    data TEXT,
+    is_expired BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_expires (expires),
+    INDEX idx_is_expired (is_expired)
+);
+
 -- Insertion de quelques aliments de base
 INSERT INTO aliments (nom, description, calories_par_100g, proteines_par_100g, glucides_par_100g, lipides_par_100g, fibres_par_100g, sodium_par_100g, sucre_par_100g, index_glycemique, categorie) VALUES
 ('Pomme', 'Fruit frais', 52, 0.3, 14, 0.2, 2.4, 1, 10.4, 35, 'fruits'),
