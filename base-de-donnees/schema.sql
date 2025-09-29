@@ -138,6 +138,21 @@ CREATE TABLE IF NOT EXISTS sessions_utilisateur (
     INDEX idx_date_connexion (date_connexion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table des objectifs nutritionnels
+CREATE TABLE IF NOT EXISTS objectifs_nutritionnels (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INT NOT NULL,
+    calories DECIMAL(8,2) NOT NULL DEFAULT 1800,
+    proteines DECIMAL(8,2) NOT NULL DEFAULT 80,
+    glucides DECIMAL(8,2) NOT NULL DEFAULT 200,
+    lipides DECIMAL(8,2) NOT NULL DEFAULT 65,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_modification TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE,
+    INDEX idx_utilisateur_objectif (utilisateur_id),
+    UNIQUE KEY unique_objectif_utilisateur (utilisateur_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Insertion de quelques aliments de base
 INSERT INTO aliments (nom, description, calories_par_100g, proteines_par_100g, glucides_par_100g, lipides_par_100g, fibres_par_100g, sodium_par_100g, sucre_par_100g, index_glycemique, categorie) VALUES
 ('Pomme', 'Fruit frais', 52, 0.3, 14, 0.2, 2.4, 1, 10.4, 35, 'fruits'),
@@ -158,6 +173,10 @@ INSERT INTO utilisateurs (nom_complet, email, mot_de_passe) VALUES
 -- Création d'un profil de test
 INSERT INTO profils_nutritionnels (utilisateur_id, type_profil, objectif, poids, taille, age, activite_physique, besoins_caloriques, besoins_proteines, besoins_glucides, besoins_lipides) VALUES
 (1, 'perte_poids', 'Perdre 5 kg en 3 mois', 70, 170, 30, 'modere', 2000, 150, 250, 67);
+
+-- Création d'un objectif de test
+INSERT INTO objectifs_nutritionnels (utilisateur_id, calories, proteines, glucides, lipides) VALUES
+(1, 1800, 80, 200, 65);
 
 -- Affichage des tables créées
 SHOW TABLES;
