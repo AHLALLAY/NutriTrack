@@ -4,14 +4,14 @@
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
             <div class="w-24 h-24">
-                <a href="/tableau-de-bord">
+                <a href="/dashboard">
                     <img src="/img/logo.png" alt="">
                 </a>
             </div>
 
             <!-- Navigation -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="/tableau-de-bord" class="text-gray-600 hover:text-nutri-green flex items-center font-medium">
+                <a href="/dashboard" class="text-gray-600 hover:text-nutri-green flex items-center font-medium">
                     <i class="ri-dashboard-3-line mr-2"></i>Tableau de bord
                 </a>
                 <a href="#" class="text-gray-600 hover:text-nutri-green flex items-center font-medium">
@@ -22,11 +22,63 @@
                 </a>
             </div>
 
-            <!-- Icône utilisateur -->
-            <div
-                class="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center shadow-sm">
-                <i class="ri-user-3-line text-green-600 text-lg"></i>
+            <!-- Avatar utilisateur avec menu -->
+            <div class="relative">
+                <!-- Bouton avatar -->
+                <button id="avatar-menu-btn" class="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow">
+                    <i class="ri-user-3-line text-green-600 text-lg"></i>
+                </button>
+                
+                <!-- Menu déroulant -->
+                <div id="avatar-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <div class="px-4 py-2 border-b border-gray-100">
+                        <p class="text-sm font-medium text-gray-900"><%= utilisateur ? utilisateur.nomComplet : 'Utilisateur' %></p>
+                        <p class="text-xs text-gray-500">Utilisateur connecté</p>
+                    </div>
+                    <a href="/profil" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors">
+                        <i class="fas fa-user mr-3 text-green-500"></i>
+                        Mon Profil
+                    </a>
+                    <a href="/profil/objectifs" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors">
+                        <i class="fas fa-target mr-3 text-green-500"></i>
+                        Mes Objectifs
+                    </a>
+                    <div class="border-t border-gray-100 mt-1"></div>
+                    <form action="/deconnexion" method="POST" class="block">
+                        <button type="submit" class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-3"></i>
+                            Se déconnecter
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const avatarBtn = document.getElementById('avatar-menu-btn');
+    const avatarMenu = document.getElementById('avatar-menu');
+    
+    // Toggle menu on avatar click
+    avatarBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        avatarMenu.classList.toggle('hidden');
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!avatarBtn.contains(e.target) && !avatarMenu.contains(e.target)) {
+            avatarMenu.classList.add('hidden');
+        }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            avatarMenu.classList.add('hidden');
+        }
+    });
+});
+</script>
