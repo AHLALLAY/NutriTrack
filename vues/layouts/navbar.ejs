@@ -1,57 +1,32 @@
-        <!-- Messages de notification -->
-    <% if (typeof erreur !== 'undefined' && erreur) { %>
-        <div class="fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg z-50" id="message-erreur">
-            <div class="flex items-center">
-                <i class="ri-error-warning-line mr-2"></i>
-                <span><%= erreur %></span>
-                <button onclick="fermerMessage('message-erreur')" class="ml-4 text-red-500 hover:text-red-700">
-                    <i class="ri-close-line"></i>
-                </button>
+<!-- Header -->
+<header class="fixed w-full bg-white shadow-sm border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <div class="w-24 h-24">
+                <a href="/tableau-de-bord">
+                    <img src="/img/logo.png" alt="">
+                </a>
             </div>
-        </div>
-    <% } %>
-    
-    <% if (typeof succes !== 'undefined' && succes) { %>
-        <div class="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50" id="message-succes">
-            <div class="flex items-center">
-                <i class="ri-checkbox-circle-line mr-2"></i>
-                <span><%= succes %></span>
-                <button onclick="fermerMessage('message-succes')" class="ml-4 text-green-500 hover:text-green-700">
-                    <i class="ri-close-line"></i>
-                </button>
-            </div>
-        </div>
-    <% } %>
 
-    <!-- Header avec navigation -->
-    <header class="bg-white shadow-sm border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo NutriTrack -->
-                <div class="flex items-center">
-                    <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center mr-3 shadow-sm">
-                        <i class="ri-leaf-fill text-white text-lg"></i>
-                    </div>
-                    <span class="text-xl font-bold text-gray-900">NutriTrack</span>
-                </div>
-                
-                <!-- Navigation desktop -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="/tableau-de-bord" class="text-gray-600 hover:text-nutri-green transition-all duration-200 flex items-center font-medium hover:scale-105">
-                        <i class="ri-dashboard-3-line mr-2"></i>Tableau de bord
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-nutri-green transition-all duration-200 flex items-center font-medium hover:scale-105">
-                        <i class="ri-search-2-line mr-2"></i>Analyser
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-nutri-green transition-all duration-200 flex items-center font-medium hover:scale-105">
-                        <i class="ri-bar-chart-box-line mr-2"></i>Rapports
-                    </a>
-                </div>
-                
-                <!-- Icône utilisateur -->
-                <div class="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all duration-200 hover:scale-110">
-                    <i class="ri-user-3-line text-green-600 text-lg hover:scale-110 transition-transform duration-200"></i>
-                </div>
+            <!-- Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/tableau-de-bord" class="text-gray-600 hover:text-nutri-green flex items-center font-medium">
+                    <i class="ri-dashboard-3-line mr-2"></i>Tableau de bord
+                </a>
+                <a href="#" class="text-gray-600 hover:text-nutri-green flex items-center font-medium">
+                    <i class="ri-search-2-line mr-2"></i>Analyser
+                </a>
+                <a href="#" class="text-gray-600 hover:text-nutri-green flex items-center font-medium">
+                    <i class="ri-bar-chart-box-line mr-2"></i>Rapports
+                </a>
+            </div>
+
+            <!-- Icône utilisateur -->
+            <div
+                class="w-10 h-10 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center shadow-sm">
+                <i class="ri-user-3-line text-green-600 text-lg"></i>
             </div>
         </div>
-    </header>
+    </div>
+</header>

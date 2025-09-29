@@ -1,0 +1,24 @@
+<!-- Messages de notification -->
+    <% if (typeof erreur !== 'undefined' && erreur) { %>
+        <div class="fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg z-50" id="message-erreur">
+            <div class="flex items-center">
+                <i class="ri-error-warning-line mr-2"></i>
+                <span><%= erreur %></span>
+                <button onclick="fermerMessage('message-erreur')" class="ml-4 text-red-500 hover:text-red-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    <% } %>
+    
+    <% if (typeof succes !== 'undefined' && succes) { %>
+        <div class="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg z-50" id="message-succes">
+            <div class="flex items-center">
+                <i class="ri-checkbox-circle-line mr-2"></i>
+                <span><%= succes %></span>
+                <button onclick="fermerMessage('message-succes')" class="ml-4 text-green-500 hover:text-green-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    <% } %>
