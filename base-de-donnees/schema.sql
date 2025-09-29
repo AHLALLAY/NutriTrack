@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS profils_nutritionnels (
     utilisateur_id INT NOT NULL,
     type_profil ENUM('diabete', 'hypertension', 'obesite', 'athlete', 'perte_poids', 'prise_masse') NOT NULL,
     objectif TEXT,
+    objectif_poids DECIMAL(5,2),
     poids DECIMAL(5,2),
     taille DECIMAL(5,2),
     age INT,

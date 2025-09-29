@@ -1,30 +1,5 @@
-    <!-- Messages de notification -->
-    <% if (typeof erreur !== 'undefined' && erreur) { %>
-        <div class="fixed top-4 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow z-50" id="message-erreur">
-            <div class="flex items-center">
-                <i class="fas fa-exclamation-circle mr-2"></i>
-                <span><%= erreur %></span>
-                <button onclick="fermerMessage('message-erreur')" class="ml-4 text-red-500 hover:text-red-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-    <% } %>
-    
-    <% if (typeof succes !== 'undefined' && succes) { %>
-        <div class="fixed top-4 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow z-50" id="message-succes">
-            <div class="flex items-center">
-                <i class="fas fa-check-circle mr-2"></i>
-                <span><%= succes %></span>
-                <button onclick="fermerMessage('message-succes')" class="ml-4 text-green-500 hover:text-green-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-    <% } %>
-
     <!-- Contenu principal -->
-    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen px-4 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
             <!-- En-tête -->
             <div class="flex items-center justify-between mb-8">
@@ -56,38 +31,28 @@
                     </div>
                     <div class="mt-2 text-xs text-gray-500">69% atteint</div>
                 </div>
-                <div class="bg-white rounded-lg shadow p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-gray-500">Hydratation</span>
-                        <i class="fas fa-droplet text-nutri-blue"></i>
-                    </div>
-                    <div class="text-xl font-semibold text-gray-900">1.2L <span class="text-sm text-gray-500">/ 2L</span></div>
-                    <div class="w-full h-2 bg-gray-100 rounded mt-3">
-                        <div class="h-2 bg-nutri-blue rounded" style="width: 60%"></div>
-                    </div>
-                    <div class="mt-2 text-xs text-gray-500">60% du rappel</div>
+
+                <!-- Boutons d'action -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <a href="/profil" class="bg-nutri-green text-white py-3 px-6 rounded-lg font-medium hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors text-center">
+                        <i class="fas fa-user mr-2"></i>
+                        Mon Profil
+                    </a>
+                    <a href="/profil/objectifs" class="bg-nutri-blue text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors text-center">
+                        <i class="fas fa-target mr-2"></i>
+                        Mes Objectifs
+                    </a>
                 </div>
-                <div class="bg-white rounded-lg shadow p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-gray-500">Protéines</span>
-                        <i class="fas fa-egg text-nutri-green"></i>
-                    </div>
-                    <div class="text-xl font-semibold text-gray-900">45g <span class="text-sm text-gray-500">/ 80g</span></div>
-                    <div class="w-full h-2 bg-gray-100 rounded mt-3">
-                        <div class="h-2 bg-nutri-green rounded" style="width: 56%"></div>
-                    </div>
-                    <div class="mt-2 text-xs text-gray-500">56% atteint</div>
-                </div>
-                <div class="bg-white rounded-lg shadow p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-gray-500">Glucides</span>
-                        <i class="fas fa-bread-slice text-gray-400"></i>
-                    </div>
-                    <div class="text-xl font-semibold text-gray-900">142g <span class="text-sm text-gray-500">/ 200g</span></div>
-                    <div class="w-full h-2 bg-gray-100 rounded mt-3">
-                        <div class="h-2 bg-emerald-400 rounded" style="width: 71%"></div>
-                    </div>
-                    <div class="mt-2 text-xs text-gray-500">71% atteint</div>
+
+                <!-- Bouton de déconnexion -->
+                <div class="text-center">
+                    <form action="/deconnexion" method="POST" class="inline-block">
+                        <button type="submit" 
+                                class="bg-red-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            Se déconnecter
+                        </button>
+                    </form>
                 </div>
             </div>
 

@@ -1,9 +1,10 @@
 const mysql = require('mysql2/promise');
+require('dotenv').config();
 
 // Configuration de la connexion à la base de données
 const configDB = {
     host: process.env.DB_HOST || '',
-    user: process.env.DB_USERNAME || '',
+    user: process.env.DB_USER || '',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || '',
     waitForConnections: true,
