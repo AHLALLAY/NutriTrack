@@ -64,10 +64,12 @@ app.use(marquerSessionActive);
 // Routes
 const authentificationRoutes = require('./routes/authentification');
 const profilRoutes = require('./routes/profil');
+const objectifRoutes = require('./routes/objectif');
 const sessionsRoutes = require('./routes/sessions');
 
 app.use('/', authentificationRoutes);
 app.use('/', profilRoutes);
+app.use('/', objectifRoutes);
 app.use('/', sessionsRoutes);
 
 // Page d'accueil
