@@ -38,7 +38,7 @@ const authentificationController = {
 
             req.session.succes = 'Votre compte a été créé avec succès !';
             
-            res.redirect('/tableau-de-bord');
+            res.redirect('/dashboard');
 
         } catch (erreur) {
             console.error('Erreur lors de l\'inscription:', erreur);
@@ -113,7 +113,7 @@ const authentificationController = {
             if (erreur) {
                 console.error('Erreur lors de la déconnexion:', erreur);
                 req.session.erreur = 'Erreur lors de la déconnexion';
-                return res.redirect('/tableau-de-bord');
+                return res.redirect('/dashboard');
             }
             
             res.redirect('/connexion');

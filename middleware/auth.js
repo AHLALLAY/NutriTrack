@@ -11,7 +11,7 @@ const verifierAuthentification = (req, res, next) => {
 // Middleware pour rediriger si déjà connecté
 const redirigerSiConnecte = (req, res, next) => {
     if (req.session.utilisateur) {
-        res.redirect('/tableau-de-bord');
+        res.redirect('/dashboard');
     } else {
         next();
     }

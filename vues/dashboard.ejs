@@ -2,59 +2,66 @@
     <div class="min-h-screen px-4 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
             <!-- En-tête -->
-            <div class="flex items-center justify-between mb-8">
-                <div class="flex items-center">
-                    <img src="/img/logo.png" alt="" class="w-24 h-24 rounded-full">
-                    <div>
-                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">NutriTrack</h1>
-                        <p class="text-sm text-gray-500">Bonjour <%= utilisateur ? utilisateur.nomComplet : 'Utilisateur' %></p>
-                    </div>
-                </div>
-                <form action="/deconnexion" method="POST" class="hidden sm:block">
-                    <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors">
-                        <i class="fas fa-sign-out-alt mr-2"></i>
-                        Déconnexion
-                    </button>
-                </form>
+            <div class="mb-8">
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Bonjour <span class="text-nutri-green"><%= utilisateur ? utilisateur.nomComplet : 'Utilisateur' %></span> 👋</h1>
+                <p class="text-sm text-gray-500">Voici votre résumé nutritionnel du jour</p>
             </div>
 
             <!-- KPIs -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <!-- Carte Calories -->
                 <div class="bg-white rounded-lg shadow p-4">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm text-gray-500">Calories</span>
-                        <i class="fas fa-fire text-amber-500"></i>
+                        <span class="text-sm text-gray-600">Calories</span>
+                        <i class="fas fa-fire text-orange-500"></i>
                     </div>
-                    <div class="text-xl font-semibold text-gray-900">1247 <span class="text-sm text-gray-500">/ 1800</span></div>
-                    <div class="w-full h-2 bg-gray-100 rounded mt-3">
-                        <div class="h-2 bg-amber-400 rounded" style="width: 69%"></div>
+                    <div class="text-2xl font-bold text-gray-900">1247/1800</div>
+                    <div class="text-xs text-gray-500 mt-1">69% de l'objectif</div>
+                    <div class="w-full h-2 bg-gray-200 rounded mt-3">
+                        <div class="h-2 bg-green-500 rounded" style="width: 69%"></div>
                     </div>
-                    <div class="mt-2 text-xs text-gray-500">69% atteint</div>
                 </div>
 
-                <!-- Boutons d'action -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                    <a href="/profil" class="bg-nutri-green text-white py-3 px-6 rounded-lg font-medium hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors text-center">
-                        <i class="fas fa-user mr-2"></i>
-                        Mon Profil
-                    </a>
-                    <a href="/profil/objectifs" class="bg-nutri-blue text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors text-center">
-                        <i class="fas fa-target mr-2"></i>
-                        Mes Objectifs
-                    </a>
+                <!-- Carte Hydratation -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">Hydratation</span>
+                        <i class="fas fa-tint text-blue-500"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900">1.2L / 2L</div>
+                    <div class="text-xs text-gray-500 mt-1">60% de l'objectif</div>
+                    <div class="w-full h-2 bg-gray-200 rounded mt-3">
+                        <div class="h-2 bg-green-500 rounded" style="width: 60%"></div>
+                    </div>
                 </div>
 
-                <!-- Bouton de déconnexion -->
-                <div class="text-center">
-                    <form action="/deconnexion" method="POST" class="inline-block">
-                        <button type="submit" 
-                                class="bg-red-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors">
-                            <i class="fas fa-sign-out-alt mr-2"></i>
-                            Se déconnecter
-                        </button>
-                    </form>
+                <!-- Carte Protéines -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">Protéines</span>
+                        <i class="fas fa-dumbbell text-green-500"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900">45g / 80g</div>
+                    <div class="text-xs text-gray-500 mt-1">56% de l'objectif</div>
+                    <div class="w-full h-2 bg-gray-200 rounded mt-3">
+                        <div class="h-2 bg-green-500 rounded" style="width: 56%"></div>
+                    </div>
+                </div>
+
+                <!-- Carte Glucides -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">Glucides</span>
+                        <i class="fas fa-square text-red-500"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-gray-900">142g / 200g</div>
+                    <div class="text-xs text-gray-500 mt-1">71% de l'objectif</div>
+                    <div class="w-full h-2 bg-gray-200 rounded mt-3">
+                        <div class="h-2 bg-green-500 rounded" style="width: 71%"></div>
+                    </div>
                 </div>
             </div>
+
 
             <!-- Grille principale (liste repas + sidebar) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
