@@ -138,16 +138,22 @@ CREATE TABLE IF NOT EXISTS sessions_utilisateur (
     INDEX idx_date_connexion (date_connexion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table pour stocker les sessions Express
+-- Table pour gérer toutes les sessions
 CREATE TABLE IF NOT EXISTS sessions_express (
     session_id VARCHAR(128) NOT NULL PRIMARY KEY,
     expires BIGINT UNSIGNED NOT NULL,
     data TEXT,
-    is_expired BOOLEAN DEFAULT FALSE,
+    user_id INT,
+    is_active BOOLEAN DEFAULT TRUE,
+    reason VARCHAR(100) DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    expired_at TIMESTAMP NULL,
     INDEX idx_expires (expires),
-    INDEX idx_is_expired (is_expired)
+    INDEX idx_user_id (user_id),
+    INDEX idx_is_active (is_active),
+    INDEX idx_expired_at (expired_at),
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
 );
 
 -- Insertion de quelques aliments de base
