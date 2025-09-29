@@ -31,7 +31,7 @@ router.post('/connexion',
 );
 
 // Tableau de bord
-router.get('/tableau-de-bord', 
+router.get('/dashboard', 
     verifierAuthentification,
     authentificationController.afficherTableauDeBord
 );
