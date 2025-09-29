@@ -35,9 +35,11 @@ app.use(gererSession);
 // Routes
 const authentificationRoutes = require('./routes/authentification');
 const profilRoutes = require('./routes/profil');
+const objectifRoutes = require('./routes/objectif');
 
 app.use('/', authentificationRoutes);
 app.use('/', profilRoutes);
+app.use('/', objectifRoutes);
 
 // Page d'accueil
 app.get('/', (req, res) => {
