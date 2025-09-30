@@ -1,5 +1,8 @@
     <!-- Scripts JavaScript -->
     <script src="/js/app.js"></script>
+    <% if (typeof titre !== 'undefined' && titre.includes('Dashboard')) { %>
+        <script src="/js/dashboard.js"></script>
+    <% } %>
 </body>
 
 </html>
