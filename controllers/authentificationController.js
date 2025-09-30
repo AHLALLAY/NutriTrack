@@ -93,30 +93,11 @@ const authentificationController = {
         }
     },
 
-    // Afficher le tableau de bord
+    // Afficher le tableau de bord (redirige vers le nouveau contrôleur)
     afficherTableauDeBord: (req, res) => {
-        const kpis = {
-            calories: { valeur: 1247, objectif: 1800 },
-            hydratation: { valeurLitres: 1.2, objectifLitres: 2 },
-            proteines: { valeurGrammes: 45, objectifGrammes: 80 },
-            glucides: { valeurGrammes: 142, objectifGrammes: 200 }
-        };
-
-        const repasDuJour = [
-            { titre: 'Salade de quinoa aux légumes', moment: 'Déjeuner', heure: '13:00', energieKcal: 450 },
-            { titre: 'Smoothie protéiné banana', moment: 'Petit-déjeuner', heure: '08:30', energieKcal: 320 },
-            { titre: 'Yaourt grec aux fruits', moment: 'Collation', heure: '16:00', energieKcal: 180 }
-        ];
-
-        const conseilDuJour = {
-            titre: 'Conseil du jour',
-            texte: 'Buvez 2 verres d’eau avant votre prochain repas pour améliorer la digestion.'
-        };
-        
-        res.render('dashboard', {
-            titre: 'Tableau de Bord - NutriTrack',
-            utilisateur: req.session ? req.session.utilisateur : null
-        });
+        // Rediriger vers le nouveau contrôleur dashboard
+        const dashboardController = require('./dashboardController');
+        return dashboardController.afficherDashboard(req, res);
     },
 
     // Déconnexion
