@@ -5,7 +5,8 @@ const authentificationController = {
     afficherConnexion: (req, res) => {
         res.render('auth/connexion', {
             titre: 'Connexion - NutriTrack',
-            ongletActif: 'connexion'
+            ongletActif: 'connexion',
+            layout: 'layouts/auth-layout'
         });
     },
 
@@ -13,7 +14,8 @@ const authentificationController = {
     afficherInscription: (req, res) => {
         res.render('auth/inscription', {
             titre: 'Inscription - NutriTrack',
-            ongletActif: 'inscription'
+            ongletActif: 'inscription',
+            layout: 'layouts/auth-layout'
         });
     },
 
