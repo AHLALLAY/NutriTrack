@@ -1,10 +1,9 @@
 const Utilisateur = require('../models/utilisateur');
-const SessionController = require('./sessionController');
 
 const authentificationController = {
     // Afficher la page de connexion
     afficherConnexion: (req, res) => {
-        res.render('authentification/connexion', {
+        res.render('auth/connexion', {
             titre: 'Connexion - NutriTrack',
             ongletActif: 'connexion'
         });
@@ -12,7 +11,7 @@ const authentificationController = {
 
     // Afficher la page d'inscription
     afficherInscription: (req, res) => {
-        res.render('authentification/inscription', {
+        res.render('auth/inscription', {
             titre: 'Inscription - NutriTrack',
             ongletActif: 'inscription'
         });
@@ -31,19 +30,22 @@ const authentificationController = {
             });
 
             // Créer la session
-            req.session.utilisateur = {
-                id: nouvelUtilisateur.id,
-                nomComplet: nouvelUtilisateur.nomComplet,
-                email: nouvelUtilisateur.email
-            };
-
-            req.session.succes = 'Votre compte a été créé avec succès !';
+            if (req.session) {
+                req.session.utilisateur = {
+                    id: nouvelUtilisateur.id,
+                    nomComplet: nouvelUtilisateur.nomComplet,
+                    email: nouvelUtilisateur.email
+                };
+                req.session.succes = 'Votre compte a été créé avec succès !';
+            }
             
             res.redirect('/dashboard');
 
         } catch (erreur) {
             console.error('Erreur lors de l\'inscription:', erreur);
-            req.session.erreur = erreur.message;
+            if (req.session) {
+                req.session.erreur = erreur.message;
+            }
             res.redirect('/inscription');
         }
     },
@@ -57,7 +59,9 @@ const authentificationController = {
             const utilisateur = await Utilisateur.trouverParEmail(email.toLowerCase().trim());
 
             if (!utilisateur) {
-                req.session.erreur = 'Email ou mot de passe incorrect';
+                if (req.session) {
+                    req.session.erreur = 'Email ou mot de passe incorrect';
+                }
                 return res.redirect('/connexion');
             }
 
@@ -65,36 +69,24 @@ const authentificationController = {
             const motDePasseValide = await utilisateur.verifierMotDePasse(motDePasse);
 
             if (!motDePasseValide) {
-                req.session.erreur = 'Email ou mot de passe incorrect';
-                return res.redirect('/connexion');
-            }
-
-            // Vérifier et gérer les sessions existantes
-            const sessionResult = await SessionController.verifierEtGererSession(utilisateur.id);
-            
-            if (sessionResult.action === 'error') {
-                req.session.erreur = 'Erreur lors de la gestion des sessions';
+                if (req.session) {
+                    req.session.erreur = 'Email ou mot de passe incorrect';
+                }
                 return res.redirect('/connexion');
             }
 
             // Créer la session Express
-            req.session.utilisateur = utilisateur.obtenirDonneesPubliques();
-
-            // Créer l'enregistrement dans la base de données
-            if (sessionResult.action === 'create') {
-                await SessionController.creerNouvelleSession(
-                    req.sessionID, 
-                    utilisateur.id, 
-                    req.session.utilisateur
-                );
+            if (req.session) {
+                req.session.utilisateur = utilisateur.obtenirDonneesPubliques();
+                req.session.succes = `Bienvenue ${utilisateur.nomComplet} !`;
             }
-
-            req.session.succes = `Bienvenue ${utilisateur.nomComplet} !`;
             res.redirect('/dashboard');
 
         } catch (erreur) {
             console.error('Erreur lors de la connexion:', erreur);
-            req.session.erreur = 'Une erreur s\'est produite lors de la connexion';
+            if (req.session) {
+                req.session.erreur = 'Une erreur s\'est produite lors de la connexion';
+            }
             res.redirect('/connexion');
         }
     },
@@ -121,32 +113,21 @@ const authentificationController = {
         
         res.render('dashboard', {
             titre: 'Tableau de Bord - NutriTrack',
-            utilisateur: req.session.utilisateur
+            utilisateur: req.session ? req.session.utilisateur : null
         });
     },
 
     // Déconnexion
-    deconnexion: async (req, res) => {
-        try {
-            // Marquer la session comme inactive avant de la détruire
-            if (req.sessionID) {
-                await SessionController.marquerSessionInactive(req.sessionID, 'logout');
-            }
-            
+    deconnexion: (req, res) => {
+        if (req.session) {
             req.session.destroy((erreur) => {
                 if (erreur) {
                     console.error('Erreur lors de la déconnexion:', erreur);
-                    req.session.erreur = 'Erreur lors de la déconnexion';
-                    return res.redirect('/dashboard');
                 }
-                
                 res.redirect('/connexion');
             });
-        } catch (error) {
-            console.error('Erreur lors de la déconnexion:', error);
-            req.session.destroy(() => {
-                res.redirect('/connexion');
-            });
+        } else {
+            res.redirect('/connexion');
         }
     }
 };

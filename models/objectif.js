@@ -1,4 +1,4 @@
-const { executerRequete } = require('../base-de-donnees/connexion');
+const { executerRequete } = require('../database/connexion');
 
 class Objectif {
     constructor(donnees) {

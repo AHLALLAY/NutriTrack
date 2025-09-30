@@ -20,7 +20,7 @@ const validerInscription = (req, res, next) => {
     }
 
     if (erreurs.length > 0) {
-        req.session.erreur = erreurs.join(', ');
+        if (req.session) req.session.erreur = erreurs.join(', ');
         return res.redirect('/inscription');
     }
 
@@ -43,7 +43,7 @@ const validerConnexion = (req, res, next) => {
     }
 
     if (erreurs.length > 0) {
-        req.session.erreur = erreurs.join(', ');
+        if (req.session) req.session.erreur = erreurs.join(', ');
         return res.redirect('/connexion');
     }
 

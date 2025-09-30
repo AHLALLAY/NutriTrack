@@ -4,7 +4,7 @@ const Objectif = require('../models/objectif');
 
 const profilController = {
     afficherProfil: async (req, res) => {
-        const utilisateurId = req.session.utilisateur.id;
+        const utilisateurId = req.session && req.session.utilisateur ? req.session.utilisateur.id : null;
         const profil = await Profil.trouverParUtilisateur(utilisateurId);
         const statistiques = await Profil.obtenirStatistiques(utilisateurId);
         const utilisateur = await Utilisateur.trouverParId(utilisateurId);
@@ -18,7 +18,7 @@ const profilController = {
         });
     },
     afficherObjectifs: async (req, res) => {
-        const utilisateurId = req.session.utilisateur.id;
+        const utilisateurId = req.session && req.session.utilisateur ? req.session.utilisateur.id : null;
         const objectif = await Objectif.trouverParUtilisateur(utilisateurId);
         const utilisateur = await Utilisateur.trouverParId(utilisateurId);
         
@@ -31,21 +31,21 @@ const profilController = {
     },
 
     traiterMiseAJourProfil: async (req, res) => {
-        const utilisateurId = req.session.utilisateur.id;
+        const utilisateurId = req.session && req.session.utilisateur ? req.session.utilisateur.id : null;
         const { typeProfil, objectifPoids, poids, taille, age, activitePhysique } = req.body;
 
         if (!poids || !taille || !age) {
-            req.session.erreur = 'Veuillez remplir tous les champs obligatoires';
+            if (req.session) req.session.erreur = 'Veuillez remplir tous les champs obligatoires';
             return res.redirect('/profil');
         }
 
         if (poids <= 0 || taille <= 0 || age <= 0) {
-            req.session.erreur = 'Les valeurs doivent être positives';
+            if (req.session) req.session.erreur = 'Les valeurs doivent être positives';
             return res.redirect('/profil');
         }
 
         if (age < 10 || age > 120) {
-            req.session.erreur = 'L\'âge doit être entre 10 et 120 ans';
+            if (req.session) req.session.erreur = 'L\'âge doit être entre 10 et 120 ans';
             return res.redirect('/profil');
         }
 
@@ -68,7 +68,7 @@ const profilController = {
         // Sauvegarder
         await Profil.creerOuMettreAJour(utilisateurId, donneesProfil);
 
-        req.session.succes = 'Profil mis à jour avec succès !';
+        if (req.session) req.session.succes = 'Profil mis à jour avec succès !';
         res.redirect('/profil');
     }
 };

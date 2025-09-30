@@ -3,7 +3,7 @@ const Profil = require('../models/profil');
 
 const objectifController = {
     afficherObjectifs: async (req, res) => {
-        const utilisateurId = req.session.utilisateur.id;
+        const utilisateurId = req.session && req.session.utilisateur ? req.session.utilisateur.id : null;
         const objectif = await Objectif.trouverParUtilisateur(utilisateurId);
         
         res.render('profil', {
@@ -14,7 +14,7 @@ const objectifController = {
     },
 
     traiterMiseAJourObjectifs: async (req, res) => {
-        const utilisateurId = req.session.utilisateur.id;
+        const utilisateurId = req.session && req.session.utilisateur ? req.session.utilisateur.id : null;
         const { calories, proteines, glucides, lipides } = req.body;
 
         const valeurs = {
@@ -26,22 +26,22 @@ const objectifController = {
 
         try {
             await Objectif.creerOuMettreAJour(utilisateurId, valeurs);
-            req.session.succes = 'Objectifs sauvegardés !';
+            if (req.session) req.session.succes = 'Objectifs sauvegardés !';
         } catch (erreur) {
-            req.session.erreur = 'Erreur lors de la sauvegarde';
+            if (req.session) req.session.erreur = 'Erreur lors de la sauvegarde';
         }
         
         res.redirect('/profil/objectifs');
     },
 
     appliquerRecommandations: async (req, res) => {
-        const utilisateurId = req.session.utilisateur.id;
+        const utilisateurId = req.session && req.session.utilisateur ? req.session.utilisateur.id : null;
         
         try {
             const profil = await Profil.trouverParUtilisateur(utilisateurId);
             
             if (!profil) {
-                req.session.erreur = 'Complétez d\'abord votre profil';
+                if (req.session) req.session.erreur = 'Complétez d\'abord votre profil';
                 return res.redirect('/profil');
             }
 
@@ -53,10 +53,10 @@ const objectifController = {
             };
 
             await Objectif.creerOuMettreAJour(utilisateurId, objectifsRecommandes);
-            req.session.succes = 'Objectifs recommandés appliqués !';
+            if (req.session) req.session.succes = 'Objectifs recommandés appliqués !';
             
         } catch (erreur) {
-            req.session.erreur = 'Erreur lors de l\'application des recommandations';
+            if (req.session) req.session.erreur = 'Erreur lors de l\'application des recommandations';
         }
         
         res.redirect('/profil/objectifs');
