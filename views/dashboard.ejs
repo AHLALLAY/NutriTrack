@@ -15,10 +15,13 @@
                         <span class="text-sm text-gray-600">Calories</span>
                         <i class="fas fa-fire text-orange-500"></i>
                     </div>
-                    <div class="text-2xl font-bold text-gray-900">1247/1800</div>
-                    <div class="text-xs text-gray-500 mt-1">69% de l'objectif</div>
+                    <div class="text-2xl font-bold text-gray-900">
+                        <%= kpis.calories.valeur %>/<%= kpis.calories.objectif %>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1"><%= kpis.calories.pourcentage %>% de l'objectif</div>
                     <div class="w-full h-2 bg-gray-200 rounded mt-3">
-                        <div class="h-2 bg-green-500 rounded" style="width: 69%"></div>
+                        <% var caloriesWidth = Math.min(kpis.calories.pourcentage, 100); %>
+                        <div class="h-2 bg-green-500 rounded" data-width="<%= caloriesWidth %>"></div>
                     </div>
                 </div>
 
@@ -28,10 +31,13 @@
                         <span class="text-sm text-gray-600">Hydratation</span>
                         <i class="fas fa-tint text-blue-500"></i>
                     </div>
-                    <div class="text-2xl font-bold text-gray-900">1.2L / 2L</div>
-                    <div class="text-xs text-gray-500 mt-1">60% de l'objectif</div>
+                    <div class="text-2xl font-bold text-gray-900">
+                        <%= kpis.hydratation.valeurLitres %>L / <%= kpis.hydratation.objectifLitres %>L
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1"><%= kpis.hydratation.pourcentage %>% de l'objectif</div>
                     <div class="w-full h-2 bg-gray-200 rounded mt-3">
-                        <div class="h-2 bg-green-500 rounded" style="width: 60%"></div>
+                        <% var hydratationWidth = Math.min(kpis.hydratation.pourcentage, 100); %>
+                        <div class="h-2 bg-blue-500 rounded" data-width="<%= hydratationWidth %>"></div>
                     </div>
                 </div>
 
@@ -41,10 +47,13 @@
                         <span class="text-sm text-gray-600">Protéines</span>
                         <i class="fas fa-dumbbell text-green-500"></i>
                     </div>
-                    <div class="text-2xl font-bold text-gray-900">45g / 80g</div>
-                    <div class="text-xs text-gray-500 mt-1">56% de l'objectif</div>
+                    <div class="text-2xl font-bold text-gray-900">
+                        <%= kpis.proteines.valeurGrammes %>g / <%= kpis.proteines.objectifGrammes %>g
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1"><%= kpis.proteines.pourcentage %>% de l'objectif</div>
                     <div class="w-full h-2 bg-gray-200 rounded mt-3">
-                        <div class="h-2 bg-green-500 rounded" style="width: 56%"></div>
+                        <% var proteinesWidth = Math.min(kpis.proteines.pourcentage, 100); %>
+                        <div class="h-2 bg-green-500 rounded" data-width="<%= proteinesWidth %>"></div>
                     </div>
                 </div>
 
@@ -54,10 +63,13 @@
                         <span class="text-sm text-gray-600">Glucides</span>
                         <i class="fas fa-square text-red-500"></i>
                     </div>
-                    <div class="text-2xl font-bold text-gray-900">142g / 200g</div>
-                    <div class="text-xs text-gray-500 mt-1">71% de l'objectif</div>
+                    <div class="text-2xl font-bold text-gray-900">
+                        <%= kpis.glucides.valeurGrammes %>g / <%= kpis.glucides.objectifGrammes %>g
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1"><%= kpis.glucides.pourcentage %>% de l'objectif</div>
                     <div class="w-full h-2 bg-gray-200 rounded mt-3">
-                        <div class="h-2 bg-green-500 rounded" style="width: 71%"></div>
+                        <% var glucidesWidth = Math.min(kpis.glucides.pourcentage, 100); %>
+                        <div class="h-2 bg-red-500 rounded" data-width="<%= glucidesWidth %>"></div>
                     </div>
                 </div>
             </div>
@@ -76,28 +88,23 @@
                             <button type="button" class="text-xs text-gray-500 hover:text-gray-700">Voir tout</button>
                         </div>
 
-                        <ul class="divide-y">
-                            <li class="py-3 flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-800">Salade de quinoa aux légumes</p>
-                                    <p class="text-xs text-gray-500">13:00 • Déjeuner</p>
-                                </div>
-                                <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">450 kcal</span>
-                            </li>
-                            <li class="py-3 flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-800">Smoothie protéiné banana</p>
-                                    <p class="text-xs text-gray-500">08:30 • Petit-déjeuner</p>
-                                </div>
-                                <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">320 kcal</span>
-                            </li>
-                            <li class="py-3 flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-800">Yaourt grec aux fruits</p>
-                                    <p class="text-xs text-gray-500">16:00 • Collation</p>
-                                </div>
-                                <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">180 kcal</span>
-                            </li>
+                        <ul class="divide-y" id="liste-repas">
+                            <% if (repasDuJour && repasDuJour.length > 0) { %>
+                                <% repasDuJour.forEach(function(repas) { %>
+                                    <li class="py-3 flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-800"><%= repas.nom %></p>
+                                            <p class="text-xs text-gray-500"><%= repas.heureFormatee %> • <%= repas.typeRepasFormate %></p>
+                                        </div>
+                                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><%= repas.calories %> kcal</span>
+                                    </li>
+                                <% }); %>
+                            <% } else { %>
+                                <li class="py-4 text-center text-gray-500">
+                                    <i class="fas fa-utensils text-2xl mb-2"></i>
+                                    <p class="text-sm">Aucun repas enregistré aujourd'hui</p>
+                                </li>
+                            <% } %>
                         </ul>
 
                         <div class="mt-4">
@@ -141,10 +148,10 @@
 
                     <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
                         <div class="flex items-start">
-                            <i class="fas fa-lightbulb text-emerald-600 mr-2 mt-0.5"></i>
+                            <i class="<%= conseilDuJour.icone || 'fas fa-lightbulb' %> text-emerald-600 mr-2 mt-0.5"></i>
                             <div>
-                                <p class="text-sm font-medium text-emerald-800">Conseil du jour</p>
-                                <p class="text-xs text-emerald-700">Buvez 2 verres d’eau avant votre prochain repas pour améliorer la digestion.</p>
+                                <p class="text-sm font-medium text-emerald-800"><%= conseilDuJour.titre %></p>
+                                <p class="text-xs text-emerald-700"><%= conseilDuJour.contenu %></p>
                             </div>
                         </div>
                     </div>
