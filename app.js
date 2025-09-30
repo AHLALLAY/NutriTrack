@@ -7,16 +7,18 @@ require('dotenv').config();
 const app = express();
 const PORT = 3001;
 
-// Configuration des sessions (mémoire)
+// Configuration des sessions (mémoire avec améliorations)
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret-par-defaut-nutritrack',
-    resave: false,
-    saveUninitialized: false,
+    resave: true, // Force la sauvegarde même si non modifiée
+    saveUninitialized: true, // Sauvegarde les sessions non initialisées
     cookie: { 
         secure: false, 
         maxAge: 24 * 60 * 60 * 1000, // 24 heures
-        httpOnly: true
-    }
+        httpOnly: true,
+        sameSite: 'lax' // Améliore la compatibilité
+    },
+    name: 'nutritrack.sid' // Nom personnalisé pour le cookie
 }));
 
 // Parser les données
@@ -52,10 +54,12 @@ app.use((req, res, next) => {
 const authentificationRoutes = require('./routes/authentification');
 const profilRoutes = require('./routes/profil');
 const objectifRoutes = require('./routes/objectif');
+const dashboardRoutes = require('./routes/dashboard');
 
 app.use('/', authentificationRoutes);
 app.use('/', profilRoutes);
 app.use('/', objectifRoutes);
+app.use('/', dashboardRoutes);
 
 // Page d'accueil
 app.get('/', (req, res) => {
