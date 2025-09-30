@@ -52,15 +52,18 @@ app.use((req, res, next) => {
 const authentificationRoutes = require('./routes/authentification');
 const profilRoutes = require('./routes/profil');
 const objectifRoutes = require('./routes/objectif');
+const rapportRoutes = require('./routes/rapports');
 
 app.use('/', authentificationRoutes);
 app.use('/', profilRoutes);
 app.use('/', objectifRoutes);
+app.use('/', rapportRoutes);
 
 // Page d'accueil
 app.get('/', (req, res) => {
     res.redirect('/connexion');
 });
+
 
 // Page 404
 app.use((req, res) => {
