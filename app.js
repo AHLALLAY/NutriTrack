@@ -84,11 +84,11 @@ app.use((err, req, res, next) => {
 
 // Démarrer l'application
 app.listen(PORT, () => {
-    console.log(`🚀 NutriTrack démarré sur le port ${PORT}`);
-    console.log(`📱 Accédez à l'application : http://localhost:${PORT}`);
-    console.log(`🔐 Page de connexion : http://localhost:${PORT}/connexion`);
-    console.log(`📝 Page d'inscription : http://localhost:${PORT}/inscription`);
-    console.log(`💡 Assurez-vous que la base de données est configurée avec le schéma dans database/schema.sql`);
+    console.log(`NutriTrack démarré sur le port ${PORT}`);
+    console.log(`Accédez à l'application : http://localhost:${PORT}`);
+    console.log(`Page de connexion : http://localhost:${PORT}/connexion`);
+    console.log(`Page d'inscription : http://localhost:${PORT}/inscription`);
+    console.log(`Assurez-vous que la base de données est configurée avec le schéma dans database/schema.sql`);
 });
 
 module.exports = app;
