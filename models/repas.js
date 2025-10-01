@@ -13,6 +13,7 @@ class Repas {
         this.fibres = donnees.fibres;
         this.sodium = donnees.sodium;
         this.sucre = donnees.sucre;
+        this.hydratationMl = donnees.hydratation_ml;
         this.indexGlycemique = donnees.index_glycemique;
         this.imageUrl = donnees.image_url;
         this.typeRepas = donnees.type_repas;
@@ -24,9 +25,9 @@ class Repas {
         const requete = `
             INSERT INTO repas (
                 utilisateur_id, nom, description, calories, proteines, glucides, 
-                lipides, fibres, sodium, sucre, index_glycemique, image_url, 
+                lipides, fibres, sodium, sucre, hydratation_ml, index_glycemique, image_url, 
                 type_repas, date_repas
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
         
         const resultat = await executerRequete(requete, [
@@ -40,6 +41,7 @@ class Repas {
             donneesRepas.fibres,
             donneesRepas.sodium,
             donneesRepas.sucre,
+            donneesRepas.hydratationMl || 0,
             donneesRepas.indexGlycemique,
             donneesRepas.imageUrl,
             donneesRepas.typeRepas,
@@ -128,6 +130,7 @@ class Repas {
             fibres: this.fibres,
             sodium: this.sodium,
             sucre: this.sucre,
+            hydratationMl: this.hydratationMl,
             indexGlycemique: this.indexGlycemique,
             imageUrl: this.imageUrl,
             typeRepas: this.typeRepas,
