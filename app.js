@@ -7,16 +7,18 @@ require('dotenv').config();
 const app = express();
 const PORT = 3001;
 
-// Configuration des sessions (mémoire)
+// Configuration des sessions (mémoire avec améliorations)
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret-par-defaut-nutritrack',
-    resave: false,
-    saveUninitialized: false,
+    resave: true, // Force la sauvegarde même si non modifiée
+    saveUninitialized: true, // Sauvegarde les sessions non initialisées
     cookie: { 
         secure: false, 
         maxAge: 24 * 60 * 60 * 1000, // 24 heures
-        httpOnly: true
-    }
+        httpOnly: true,
+        sameSite: 'lax' // Améliore la compatibilité
+    },
+    name: 'nutritrack.sid' // Nom personnalisé pour le cookie
 }));
 
 // Parser les données
@@ -52,12 +54,14 @@ app.use((req, res, next) => {
 const authentificationRoutes = require('./routes/authentification');
 const profilRoutes = require('./routes/profil');
 const objectifRoutes = require('./routes/objectif');
+const dashboardRoutes = require('./routes/dashboard');
 const rapportRoutes = require('./routes/rapports');
 const repasRoutes = require('./routes/repas')
 
 app.use('/', authentificationRoutes);
 app.use('/', profilRoutes);
 app.use('/', objectifRoutes);
+app.use('/', dashboardRoutes);
 app.use('/', rapportRoutes);
 app.use('/', repasRoutes);
 
@@ -85,11 +89,11 @@ app.use((err, req, res, next) => {
 
 // Démarrer l'application
 app.listen(PORT, () => {
-    console.log(`🚀 NutriTrack démarré sur le port ${PORT}`);
-    console.log(`📱 Accédez à l'application : http://localhost:${PORT}`);
-    console.log(`🔐 Page de connexion : http://localhost:${PORT}/connexion`);
-    console.log(`📝 Page d'inscription : http://localhost:${PORT}/inscription`);
-    console.log(`💡 Assurez-vous que la base de données est configurée avec le schéma dans database/schema.sql`);
+    console.log(`NutriTrack démarré sur le port ${PORT}`);
+    console.log(`Accédez à l'application : http://localhost:${PORT}`);
+    console.log(`Page de connexion : http://localhost:${PORT}/connexion`);
+    console.log(`Page d'inscription : http://localhost:${PORT}/inscription`);
+    console.log(`Assurez-vous que la base de données est configurée avec le schéma dans database/schema.sql`);
 });
 
 module.exports = app;
