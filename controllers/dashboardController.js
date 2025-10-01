@@ -197,7 +197,8 @@ async function obtenirObjectifsNutritionnels(profil, objectif) {
             calories: objectif.calories,
             proteines: objectif.proteines,
             glucides: objectif.glucides,
-            lipides: objectif.lipides
+            lipides: objectif.lipides,
+            hydratationLitres: objectif.hydratationLitres
         };
     }
     
@@ -207,7 +208,8 @@ async function obtenirObjectifsNutritionnels(profil, objectif) {
             calories: profil.besoinsCaloriques,
             proteines: profil.besoinsProteines,
             glucides: profil.besoinsGlucides,
-            lipides: profil.besoinsLipides
+            lipides: profil.besoinsLipides,
+            hydratationLitres: profil.besoinsHydratationLitres
         };
     }
     
@@ -216,7 +218,8 @@ async function obtenirObjectifsNutritionnels(profil, objectif) {
         calories: 1800,
         proteines: 80,
         glucides: 200,
-        lipides: 65
+        lipides: 65,
+        hydratationLitres: 1.5
     };
 }
 
@@ -240,7 +243,7 @@ function calculerKPIs(objectifsNutritionnels, valeursConsommees) {
     
     // Conversion ml en litres pour l'affichage
     const hydratationConsommeeLitres = hydratationConsommeeMl / 1000;
-    const objectifHydratationLitres = objectifsNutritionnels.hydratationLitres || 2.0;
+    const objectifHydratationLitres = objectifsNutritionnels.hydratationLitres || 1.5;
 
     return {
         calories: {
