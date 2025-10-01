@@ -3,10 +3,10 @@ require('dotenv').config();
 
 // Configuration de la connexion à la base de données
 const configDB = {
-    host: process.env.DB_HOST || '',
-    user: process.env.DB_USER || '',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || '',
+    database: process.env.DB_NAME || 'nutritrack',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -19,11 +19,11 @@ const pool = mysql.createPool(configDB);
 const testerConnexion = async () => {
     try {
         const connexion = await pool.getConnection();
-        console.log('✅ Connexion à la base de données réussie');
+        console.log('Connexion à la base de données réussie');
         connexion.release();
         return true;
     } catch (erreur) {
-        console.error('❌ Erreur de connexion à la base de données:', erreur.message);
+        console.error('Erreur de connexion à la base de données:', erreur.message);
         return false;
     }
 };
@@ -34,7 +34,7 @@ const executerRequete = async (requete, parametres = []) => {
         const [resultats] = await pool.execute(requete, parametres);
         return resultats;
     } catch (erreur) {
-        console.error('❌ Erreur lors de l\'exécution de la requête:', erreur.message);
+        console.error('Erreur lors de l\'exécution de la requête:', erreur.message);
         throw erreur;
     }
 };
@@ -44,7 +44,7 @@ const obtenirConnexion = async () => {
     try {
         return await pool.getConnection();
     } catch (erreur) {
-        console.error('❌ Erreur lors de l\'obtention d\'une connexion:', erreur.message);
+        console.error('Erreur lors de l\'obtention d\'une connexion:', erreur.message);
         throw erreur;
     }
 };

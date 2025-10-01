@@ -5,14 +5,20 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 
-// Configuration des sessions
+// Configuration des sessions (mémoire avec améliorations)
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'secret-par-defaut',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }
+    secret: process.env.SESSION_SECRET || 'secret-par-defaut-nutritrack',
+    resave: true, // Force la sauvegarde même si non modifiée
+    saveUninitialized: true, // Sauvegarde les sessions non initialisées
+    cookie: { 
+        secure: false, 
+        maxAge: 24 * 60 * 60 * 1000, // 24 heures
+        httpOnly: true,
+        sameSite: 'lax' // Améliore la compatibilité
+    },
+    name: 'nutritrack.sid' // Nom personnalisé pour le cookie
 }));
 
 // Parser les données
@@ -23,23 +29,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(expressLayouts);
 app.set('layout', './layouts/layout.ejs')
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'vues'));
+app.set('views', path.join(__dirname, 'views'));
 
 // Fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware pour les sessions
-const { gererSession } = require('./middleware/session');
-app.use(gererSession);
+// Middleware simple pour les variables de session
+app.use((req, res, next) => {
+    res.locals.utilisateur = req.session?.utilisateur || null;
+    res.locals.erreur = req.session?.erreur || null;
+    res.locals.succes = req.session?.succes || null;
+    
+    // Nettoyer les messages après utilisation
+    if (req.session) {
+        delete req.session.erreur;
+        delete req.session.succes;
+    }
+    
+    next();
+});
+
 
 // Routes
 const authentificationRoutes = require('./routes/authentification');
 const profilRoutes = require('./routes/profil');
 const objectifRoutes = require('./routes/objectif');
+const dashboardRoutes = require('./routes/dashboard');
 
 app.use('/', authentificationRoutes);
 app.use('/', profilRoutes);
 app.use('/', objectifRoutes);
+app.use('/', dashboardRoutes);
 
 // Page d'accueil
 app.get('/', (req, res) => {
@@ -62,11 +82,13 @@ app.use((err, req, res, next) => {
     });
 });
 
+// Démarrer l'application
 app.listen(PORT, () => {
-    console.log(`🚀 NutriTrack démarré sur le port ${PORT}`);
-    console.log(`📱 Accédez à l'application : http://localhost:${PORT}`);
-    console.log(`🔐 Page de connexion : http://localhost:${PORT}/connexion`);
-    console.log(`📝 Page d'inscription : http://localhost:${PORT}/inscription`);
+    console.log(`NutriTrack démarré sur le port ${PORT}`);
+    console.log(`Accédez à l'application : http://localhost:${PORT}`);
+    console.log(`Page de connexion : http://localhost:${PORT}/connexion`);
+    console.log(`Page d'inscription : http://localhost:${PORT}/inscription`);
+    console.log(`Assurez-vous que la base de données est configurée avec le schéma dans database/schema.sql`);
 });
 
 module.exports = app;

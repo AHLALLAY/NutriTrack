@@ -1,11 +1,19 @@
--- Script de création de la base de données NutriTrack
--- Exécuter ce script pour créer toutes les tables nécessaires
+-- =====================================================
+-- SCRIPT COMPLET D'INITIALISATION NUTRITRACK
+-- =====================================================
+-- Ce script crée la base de données, toutes les tables,
+-- et insère les données de test nécessaires
+-- =====================================================
 
 -- Création de la base de données (si elle n'existe pas)
 CREATE DATABASE IF NOT EXISTS nutritrack CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Utilisation de la base de données
 USE nutritrack;
+
+-- =====================================================
+-- CRÉATION DES TABLES
+-- =====================================================
 
 -- Table des utilisateurs
 CREATE TABLE IF NOT EXISTS utilisateurs (
@@ -40,7 +48,7 @@ CREATE TABLE IF NOT EXISTS profils_nutritionnels (
     INDEX idx_type_profil (type_profil)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table des repas
+-- Table des repas (incluant l'hydratation)
 CREATE TABLE IF NOT EXISTS repas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     utilisateur_id INT NOT NULL,
@@ -53,6 +61,7 @@ CREATE TABLE IF NOT EXISTS repas (
     fibres DECIMAL(8,2) DEFAULT 0,
     sodium DECIMAL(8,2) DEFAULT 0,
     sucre DECIMAL(8,2) DEFAULT 0,
+    hydratation_ml INT DEFAULT 0, -- Quantité d'eau en millilitres
     index_glycemique INT,
     image_url VARCHAR(500),
     type_repas ENUM('petit_dejeuner', 'collation_matin', 'dejeuner', 'collation_apres_midi', 'diner', 'collation_soir') NOT NULL,
@@ -123,20 +132,6 @@ CREATE TABLE IF NOT EXISTS rapports_hebdomadaires (
     UNIQUE KEY unique_rapport_semaine (utilisateur_id, semaine_debut)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table des sessions utilisateur (pour le suivi des connexions)
-CREATE TABLE IF NOT EXISTS sessions_utilisateur (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    utilisateur_id INT NOT NULL,
-    session_id VARCHAR(255) NOT NULL,
-    ip_address VARCHAR(45),
-    user_agent TEXT,
-    date_connexion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    date_deconnexion TIMESTAMP NULL,
-    FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE,
-    INDEX idx_utilisateur_session (utilisateur_id),
-    INDEX idx_session_id (session_id),
-    INDEX idx_date_connexion (date_connexion)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Table des objectifs nutritionnels
 CREATE TABLE IF NOT EXISTS objectifs_nutritionnels (
@@ -146,12 +141,18 @@ CREATE TABLE IF NOT EXISTS objectifs_nutritionnels (
     proteines DECIMAL(8,2) NOT NULL DEFAULT 80,
     glucides DECIMAL(8,2) NOT NULL DEFAULT 200,
     lipides DECIMAL(8,2) NOT NULL DEFAULT 65,
+    hydratation_litres DECIMAL(4,2) NOT NULL DEFAULT 2.0,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_modification TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE,
     INDEX idx_utilisateur_objectif (utilisateur_id),
     UNIQUE KEY unique_objectif_utilisateur (utilisateur_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- =====================================================
+-- INSERTION DES DONNÉES DE BASE
+-- =====================================================
 
 -- Insertion de quelques aliments de base
 INSERT INTO aliments (nom, description, calories_par_100g, proteines_par_100g, glucides_par_100g, lipides_par_100g, fibres_par_100g, sodium_par_100g, sucre_par_100g, index_glycemique, categorie) VALUES
@@ -166,23 +167,54 @@ INSERT INTO aliments (nom, description, calories_par_100g, proteines_par_100g, g
 ('Pain complet', 'Céréale', 247, 13, 41, 4.2, 7, 681, 5.7, 71, 'cereales'),
 ('Lait écrémé', 'Produit laitier', 34, 3.4, 5, 0.2, 0, 42, 5, 32, 'produits_laitiers');
 
+-- =====================================================
+-- DONNÉES DE TEST POUR LE DASHBOARD
+-- =====================================================
+
 -- Création d'un utilisateur de test (mot de passe: test123)
 INSERT INTO utilisateurs (nom_complet, email, mot_de_passe) VALUES
-('Utilisateur Test', 'test@nutritrack.com', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8K5K5K.');
+('Utilisateur Test', 'test_nutritrack@gmail.com', '$2a$12$NcLEpF9caACNTN4RK6.XvO/M3cVrp2lFe8U.V/rI1pq5B9XGVZCRy');
 
--- Création d'un profil de test
+-- Création d'un profil de test avec des objectifs réalistes
 INSERT INTO profils_nutritionnels (utilisateur_id, type_profil, objectif, poids, taille, age, activite_physique, besoins_caloriques, besoins_proteines, besoins_glucides, besoins_lipides) VALUES
 (1, 'perte_poids', 'Perdre 5 kg en 3 mois', 70, 170, 30, 'modere', 2000, 150, 250, 67);
 
 -- Création d'un objectif de test
-INSERT INTO objectifs_nutritionnels (utilisateur_id, calories, proteines, glucides, lipides) VALUES
-(1, 1800, 80, 200, 65);
+INSERT INTO objectifs_nutritionnels (utilisateur_id, calories, proteines, glucides, lipides, hydratation_litres) VALUES
+(1, 2000, 120, 250, 67, 2.5);
+
+-- Ajout de repas de test pour démontrer le dashboard (incluant l'hydratation)
+INSERT INTO repas (utilisateur_id, nom, description, calories, proteines, glucides, lipides, fibres, sodium, sucre, hydratation_ml, type_repas, date_repas) VALUES
+(1, 'Salade de quinoa aux légumes', 'Quinoa, tomates, concombres, avocat, vinaigrette légère', 450, 15, 45, 18, 8, 320, 12, 300, 'dejeuner', '2025-09-30 13:00:00'),
+(1, 'Smoothie protéiné banane', 'Banane, protéine en poudre, lait d\'amande, épinards', 320, 25, 35, 8, 6, 180, 28, 250, 'petit_dejeuner', '2025-09-30 08:30:00'),
+(1, 'Yaourt grec aux fruits', 'Yaourt grec nature, myrtilles, miel, noix', 180, 12, 22, 6, 3, 85, 18, 200, 'collation_apres_midi', '2025-09-30 16:00:00'),
+(1, 'Saumon grillé avec légumes', 'Saumon, brocolis, carottes, riz complet', 520, 35, 45, 18, 7, 450, 8, 400, 'diner', '2025-09-30 19:30:00'),
+(1, 'Omelette aux épinards', 'Œufs, épinards, fromage de chèvre, pain complet', 280, 18, 15, 16, 4, 380, 3, 250, 'petit_dejeuner', '2025-09-29 09:00:00'),
+(1, 'Salade de poulet', 'Poulet grillé, laitue, tomates, avocat, vinaigrette', 380, 28, 12, 22, 6, 420, 8, 300, 'dejeuner', '2025-09-29 12:30:00');
+
+
+-- Ajout de recommandations personnalisées
+INSERT INTO recommandations (utilisateur_id, type_recommandation, titre, contenu, priorite) VALUES
+(1, 'alimentaire', 'Augmentez votre apport en protéines', 'Vous êtes en dessous de votre objectif protéique. Ajoutez des sources de protéines à vos repas.', 'moyenne'),
+(1, 'hydratation', 'Hydratation optimale', 'Buvez au moins 2.5L d\'eau par jour pour maintenir une bonne hydratation.', 'moyenne'),
+(1, 'exercice', 'Activité physique recommandée', '30 minutes d\'exercice modéré par jour vous aideront à atteindre vos objectifs.', 'faible');
+
+-- =====================================================
+-- VÉRIFICATION DES DONNÉES
+-- =====================================================
 
 -- Affichage des tables créées
 SHOW TABLES;
 
--- Affichage de la structure des tables principales
-DESCRIBE utilisateurs;
-DESCRIBE profils_nutritionnels;
-DESCRIBE repas;
-DESCRIBE aliments;
+-- Affichage des données de test
+SELECT id, nom_complet, email FROM utilisateurs WHERE id = 1;
+SELECT besoins_caloriques, besoins_proteines, besoins_glucides, besoins_lipides FROM profils_nutritionnels WHERE utilisateur_id = 1;
+SELECT nom, calories, type_repas, date_repas FROM repas WHERE utilisateur_id = 1 ORDER BY date_repas DESC;
+SELECT titre, contenu, priorite FROM recommandations WHERE utilisateur_id = 1;
+
+-- =====================================================
+-- FIN DU SCRIPT
+-- =====================================================
+-- Le dashboard est maintenant prêt avec des données de test !
+-- Connectez-vous avec: test_nutritrack@gmail.com / test123
+-- =====================================================
