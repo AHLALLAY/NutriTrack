@@ -110,12 +110,14 @@ function calculerBesoinsNutritionnels(poids, taille, age, activitePhysique, type
     const proteines = Math.round(poids * 1.6);
     const lipides = Math.round(calories * 0.25 / 9);
     const glucides = Math.round(calories * 0.55 / 4);
+    const hydratationLitres = Math.round((poids * 0.035 + 1.5) * 10) / 10;
 
     return {
         calories: calories,
         proteines: proteines,
         glucides: glucides,
-        lipides: lipides
+        lipides: lipides,
+        hydratationLitres: hydratationLitres
     };
 }
 
