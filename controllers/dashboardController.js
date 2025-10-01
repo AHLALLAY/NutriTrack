@@ -53,6 +53,18 @@ const dashboardController = {
             res.render('dashboard', {
                 titre: 'Tableau de Bord - NutriTrack',
                 utilisateur: req.session ? req.session.utilisateur : null,
+                kpis: {
+                    calories: { valeur: 0, objectif: 0, pourcentage: 0 },
+                    hydratation: { valeurLitres: 0, objectifLitres: 0, pourcentage: 0 },
+                    proteines: { valeurGrammes: 0, objectifGrammes: 0, pourcentage: 0 },
+                    glucides: { valeurGrammes: 0, objectifGrammes: 0, pourcentage: 0 }
+                },
+                repasDuJour: [],
+                conseilDuJour: {
+                    titre: 'Bienvenue sur NutriTrack',
+                    contenu: 'Commencez par ajouter vos premiers repas pour voir vos statistiques nutritionnelles.',
+                    icone: 'fas fa-lightbulb'
+                },
                 erreur: 'Erreur lors du chargement des données'
             });
         }
@@ -228,7 +240,7 @@ function calculerKPIs(objectifsNutritionnels, valeursConsommees) {
     
     // Conversion ml en litres pour l'affichage
     const hydratationConsommeeLitres = hydratationConsommeeMl / 1000;
-    const objectifHydratationLitres = objectifsNutritionnels.hydratation_litres || 2.0;
+    const objectifHydratationLitres = objectifsNutritionnels.hydratationLitres || 2.0;
 
     return {
         calories: {
