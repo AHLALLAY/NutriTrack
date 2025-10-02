@@ -1,0 +1,120 @@
+<!-- Contenu principal -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- En-tête de page -->
+        <div class="mb-8">
+            <div class="flex items-center mb-4">
+                <a href="/dashboard" class="flex items-center text-gray-600 hover:text-nutri-green mr-4">
+                    <i class="ri-arrow-left-line mr-2"></i>
+                    <span class="font-medium">Retour</span>
+                </a>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Analyser un repas</h1>
+                <p class="text-lg text-gray-600">Prenez une photo ou téléchargez une image de votre repas</p>
+            </div>
+        </div>
+
+        <!-- Grille principale -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Section gauche - Upload de photo -->
+            <div class="bg-white border border-gray-200 rounded-2xl p-6">
+                <div class="flex items-center mb-4">
+                    <i class="ri-camera-line text-nutri-green text-xl mr-3"></i>
+                    <h2 class="text-xl font-semibold text-gray-900">Photo du repas</h2>
+                </div>
+                <p class="text-gray-600 mb-6">L'IA analysera automatiquement les ingrédients et nutriments</p>
+
+                <!-- Zone d'upload -->
+                <div class="border-2 border-dashed border-green-200 bg-green-50 rounded-xl p-8 text-center hover:border-green-300 transition-colors cursor-pointer" id="upload-zone">
+                    <div class="flex flex-col items-center">
+                        <i class="ri-upload-cloud-2-line text-4xl text-nutri-green mb-4"></i>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Téléchargez une photo</h3>
+                        <p class="text-gray-600 mb-4">Glissez-déposez ou cliquez pour sélectionner</p>
+                        <button type="button" class="bg-nutri-green text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
+                            <i class="ri-upload-line mr-2"></i>
+                            Parcourir
+                        </button>
+                    </div>
+                    <input type="file" id="photo-input" accept="image/*" class="hidden">
+                </div>
+
+                <!-- Aperçu de l'image -->
+                <div id="image-preview" class="hidden mt-4">
+                    <img id="preview-img" class="w-full h-64 object-cover rounded-lg" alt="Aperçu">
+                    <div class="mt-4 flex space-x-3">
+                        <button id="analyze-btn" class="bg-nutri-green text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
+                            <i class="ri-magic-line mr-2"></i>
+                            Analyser
+                        </button>
+                        <button id="remove-btn" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors">
+                            Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section droite - Informations -->
+            <div class="space-y-6">
+                <!-- Conseils pour une meilleure analyse -->
+                <div class="bg-white border border-gray-200 rounded-2xl p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="ri-lightbulb-line text-yellow-500 text-xl mr-3"></i>
+                        <h2 class="text-xl font-semibold text-gray-900">Conseils pour une meilleure analyse</h2>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="ri-check-line text-green-500 text-lg mr-3 mt-0.5"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-900">Éclairage optimal</h3>
+                                <p class="text-sm text-gray-600">Prenez la photo sous un bon éclairage naturel</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="ri-check-line text-green-500 text-lg mr-3 mt-0.5"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-900">Vue d'ensemble</h3>
+                                <p class="text-sm text-gray-600">Incluez tous les éléments du repas dans le cadre</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="ri-check-line text-green-500 text-lg mr-3 mt-0.5"></i>
+                            <div>
+                                <h3 class="font-medium text-gray-900">Angle direct</h3>
+                                <p class="text-sm text-gray-600">Photographie de face ou légèrement au-dessus</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IA Nutritionnelle -->
+                <div class="bg-white border border-gray-200 rounded-2xl p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="ri-magic-line text-nutri-green text-xl mr-3"></i>
+                        <h2 class="text-xl font-semibold text-gray-900">IA Nutritionnelle</h2>
+                    </div>
+                    <p class="text-gray-600">Notre intelligence artificielle reconnaît plus de 10,000 aliments et calcule automatiquement les valeurs nutritionnelles précises.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages d'alerte -->
+        <% if (message) { %>
+            <div class="mt-6 bg-green-50 border border-green-200 rounded-lg p-4">
+                <div class="flex items-center">
+                    <i class="ri-check-line text-green-500 mr-2"></i>
+                    <p class="text-green-800"><%= message %></p>
+                </div>
+            </div>
+        <% } %>
+
+        <% if (erreur) { %>
+            <div class="mt-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                <div class="flex items-center">
+                    <i class="ri-error-warning-line text-red-500 mr-2"></i>
+                    <p class="text-red-800"><%= erreur %></p>
+                </div>
+            </div>
+        <% } %>
+    </main>
+
+<script src="../public/js/analyse.js"></script>

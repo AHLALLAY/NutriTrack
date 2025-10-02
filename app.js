@@ -33,6 +33,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Middleware simple pour les variables de session
 app.use((req, res, next) => {
@@ -56,12 +57,14 @@ const profilRoutes = require('./routes/profil');
 const objectifRoutes = require('./routes/objectif');
 const dashboardRoutes = require('./routes/dashboard');
 const rapportRoutes = require('./routes/rapports');
+const analyseRoutes = require('./routes/analyse');
 
 app.use('/', authentificationRoutes);
 app.use('/', profilRoutes);
 app.use('/', objectifRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', rapportRoutes);
+app.use('/', analyseRoutes);
 
 // Page d'accueil
 app.get('/', (req, res) => {
