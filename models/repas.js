@@ -74,8 +74,7 @@ class Repas {
         return resultats.map(repas => new Repas(repas));
     }
 
-    static async obtenirStatistiquesJour(utilisateurId, date = null) {
-        const dateRecherche = date || new Date().toISOString().split('T')[0];
+    static async obtenirStatistiquesJour(utilisateurId) {
         const requete = `
             SELECT 
                 SUM(calories) as total_calories,
@@ -86,9 +85,9 @@ class Repas {
                 COUNT(*) as nombre_repas
             FROM repas 
             WHERE utilisateur_id = ? 
-            AND DATE(date_repas) = ?
+            AND DATE(date_repas) = CURDATE()
         `;
-        const resultats = await executerRequete(requete, [utilisateurId, dateRecherche]);
+        const resultats = await executerRequete(requete, [utilisateurId]);
         return resultats[0] || {
             total_calories: 0,
             total_proteines: 0,
@@ -102,16 +101,17 @@ class Repas {
     static async obtenirStatistiquesSemaine(utilisateurId) {
         const requete = `
             SELECT 
-                DATE(date_repas) as date,
+                DATE_FORMAT(date_repas, '%Y-%m-%d') as date,
                 SUM(calories) as calories,
                 SUM(proteines) as proteines,
                 SUM(glucides) as glucides,
                 SUM(lipides) as lipides,
+                SUM(hydratation_ml) as hydratation_ml,
                 COUNT(*) as nombre_repas
             FROM repas 
             WHERE utilisateur_id = ? 
-            AND date_repas >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-            GROUP BY DATE(date_repas)
+            AND DATE(date_repas) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+            GROUP BY date
             ORDER BY date ASC
         `;
         const resultats = await executerRequete(requete, [utilisateurId]);
@@ -152,11 +152,9 @@ class Repas {
     obtenirTypeRepasFormate() {
         const types = {
             'petit_dejeuner': 'Petit-déjeuner',
-            'collation_matin': 'Collation matin',
             'dejeuner': 'Déjeuner',
-            'collation_apres_midi': 'Collation après-midi',
+            'collation': 'Collation',
             'diner': 'Dîner',
-            'collation_soir': 'Collation soir'
         };
         return types[this.typeRepas] || this.typeRepas;
     }

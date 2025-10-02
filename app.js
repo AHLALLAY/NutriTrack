@@ -56,14 +56,12 @@ const profilRoutes = require('./routes/profil');
 const objectifRoutes = require('./routes/objectif');
 const dashboardRoutes = require('./routes/dashboard');
 const rapportRoutes = require('./routes/rapports');
-const repasRoutes = require('./routes/repas')
 
 app.use('/', authentificationRoutes);
 app.use('/', profilRoutes);
 app.use('/', objectifRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', rapportRoutes);
-app.use('/', repasRoutes);
 
 // Page d'accueil
 app.get('/', (req, res) => {
