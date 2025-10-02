@@ -5,7 +5,6 @@ const { verifierAuthentification } = require('../middleware/auth');
 const RapportController = require('../controllers/rapportController');
 
 
-router.get('/rapports', verifierAuthentification, RapportController.afficherRapport);
-router.get('/rapports/repas', verifierAuthentification, RapportController.afficherRepas);
+router.get('/rapports/:onglet?', verifierAuthentification, RapportController.afficherRapport);
 
 module.exports = router;

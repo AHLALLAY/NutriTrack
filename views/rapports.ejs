@@ -24,7 +24,7 @@
         <div class="border border-gray-200 rounded-[16px] p-6 flex justify-between">
             <div>
                 <p class="text-nutri-gray">Calories / jour</p>
-                <span class="font-bold text-3xl">1826</span>
+                <span class="font-bold text-3xl"><%= statistiquesJour.total_calories ? Math.floor(statistiquesJour.total_calories) : '0' %></span>
                 <div class="flex items-center gap-1 mt-2">
                     <img src="/img/arrow-up.svg" width="25" alt="">
                     <span class="text-nutri-green">+4.1%</span>
@@ -35,7 +35,7 @@
         <div class="border border-gray-200 rounded-[16px] p-6 flex justify-between">
             <div>
                 <p class="text-nutri-gray">Protéines / jour</p>
-                <span class="font-bold text-3xl">81g</span>
+                <span class="font-bold text-3xl"><%= statistiquesJour.total_proteines ? Math.floor(statistiquesJour.total_proteines) : '0' %>g</span>
                 <div class="flex items-center gap-1 mt-2">
                     <img src="/img/arrow-up.svg" width="25" alt="">
                     <span class="text-nutri-green">+6.6%</span>
@@ -46,7 +46,7 @@
         <div class="border border-gray-200 rounded-[16px] p-6 flex justify-between">
             <div>
                 <p class="text-nutri-gray">Glucides / jour</p>
-                <span class="font-bold text-3xl">195g</span>
+                <span class="font-bold text-3xl"><%= statistiquesJour.total_glucides ? Math.floor(statistiquesJour.total_glucides) : '0' %>g</span>
                 <div class="flex items-center gap-1 mt-2">
                     <img src="/img/arrow-up.svg" width="25" alt="">
                     <span class="text-nutri-green">+3.7%</span>
@@ -57,7 +57,7 @@
         <div class="border border-gray-200 rounded-[16px] p-6 flex justify-between">
             <div>
                 <p class="text-nutri-gray">Lipides / jour</p>
-                <span class="font-bold text-3xl">68g</span>
+                <span class="font-bold text-3xl"><%= statistiquesJour.total_lipides ? Math.floor(statistiquesJour.total_lipides) : '0' %>g</span>
                 <div class="flex items-center gap-1 mt-2">
                     <img src="/img/arrow-up.svg" width="25" alt="">
                     <span class="text-nutri-green">+4.6%</span>
@@ -70,7 +70,7 @@
     <!-- Onglets -->
     <div class="w-full mb-4 mt-8">
         <div class="flex bg-[#F8FAFC] rounded-full p-1 w-full">
-            <a href="/rapports"
+            <a href="/rapports/tendances"
                 class="flex-1 px-6 py-3  text-sm font-medium text-center <%= ongletActif === 'tendances' ? 'bg-nutri-green rounded-full text-white shadow-sm' : 'bg-white rounded-l-full text-gray-600 hover:text-gray-900' %>">
                 Tendances
             </a>
@@ -108,42 +108,20 @@
                 <h3 class="text-lg font-semibold text-gray-900">Fréquence des repas</h3>
                 <p class="text-sm text-nutri-gray mb-4">Nombre de repas par type cette semaine</p>
                 <div class="flex flex-col gap-3">
-                    <div>
-                        <div class="flex justify-between">
-                            <span class="text-sm font-semibold">Petit-déjeuner</span>
-                            <span class="text-sm text-nutri-gray">6 Repas</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
-                            <div class="h-full w-[84%] bg-nutri-green rounded"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between">
-                            <span class="text-sm font-semibold">Déjeuner</span>
-                            <span class="text-sm text-nutri-gray">5 Repas</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
-                            <div class="h-full w-[42%] bg-nutri-green rounded"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between">
-                            <span class="text-sm font-semibold">Collation</span>
-                            <span class="text-sm text-nutri-gray">7 Repas</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
-                            <div class="h-full w-[100%] bg-nutri-green rounded"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between">
-                            <span class="text-sm font-semibold">Dîner</span>
-                            <span class="text-sm text-nutri-gray">4 Repas</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
-                            <div class="h-full w-[56%] bg-nutri-green rounded"></div>
-                        </div>
-                    </div>
+                    <% if(countChaqueTypeRepasSemaine !== 'undefined') { %>
+                        <% countChaqueTypeRepasSemaine.forEach(repas => { %>
+                            <div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm font-semibold"><%= repas.type_repas %></span>
+                                    <span class="text-sm text-nutri-gray"><%= repas.nombre_repas %> Repas</span>
+                                </div>
+                                <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
+                                    <div class="h-full w-[<%= Math.floor(repas.nombre_repas / 7 * 100) %>%] bg-nutri-green rounded"></div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                    
                 </div>
             </div>
             <div class="bg-white border border-gray-200 rounded-[16px] p-6">
@@ -203,3 +181,147 @@
     <% } %>
     
 </div>
+
+<script>
+    const statistiquesSemaine = <%- JSON.stringify(statistiquesSemaine) %>;
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const calorieChart = document.getElementById("calorieChart");
+        const macroChart = document.getElementById("macroChart");
+        const hydratation = document.getElementById("hydratation");
+
+        hydratation.style.height = '300px';
+
+        const days = ["lun.", "mar.", "mer.", "jeu.", "ven.", "sam.", "dim."];
+
+        const stateByDay = {};
+
+        statistiquesSemaine.forEach(item => {
+            const day = new Date(item.date);
+            const key = day.toLocaleDateString("fr-FR", { weekday: "short" });
+            
+            stateByDay[key] = {
+                calories: parseFloat(item.calories),
+                glucides: parseFloat(item.glucides),
+                lipides: parseFloat(item.lipides),
+                proteines: parseFloat(item.proteines),
+                hydratation_ml: parseFloat(item.hydratation_ml),
+            }
+        });
+
+
+        const calories = days.map(day => stateByDay[day]?.calories || 0);
+        const glucides = days.map(day => stateByDay[day]?.glucides || 0);
+        const lipides   = days.map(day => stateByDay[day]?.lipides || 0);
+        const proteines = days.map(day => stateByDay[day]?.proteines || 0);
+        const hydratation_ml = days.map(day => stateByDay[day]?.hydratation_ml || 0);
+        
+        new Chart(calorieChart, {
+            type: "line",
+            data: {
+                labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                datasets: [
+                    {
+                        label: "Calories",
+                        data: calories,
+                        fill: true,
+                        borderColor: "#16a34a",
+                        backgroundColor: "rgba(22, 163, 74, 0.1)",
+                        tension: 0.4,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 550 },
+                        grid: { color: "#e5e7eb" },
+                    },
+                    x: { grid: { display: true } },
+                },
+            },
+        });
+
+        new Chart(macroChart, {
+            type: "line",
+            data: {
+                labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                datasets: [
+                    {
+                        label: "Glucides",
+                        data: glucides,
+                        borderColor: "#3b82f6",
+                        backgroundColor: "rgba(59, 130, 246, 0.1)",
+                        tension: 0.4,
+                    },
+                    {
+                        label: "Lipides",
+                        data: lipides,
+                        borderColor: "#f97316",
+                        backgroundColor: "rgba(249, 115, 22, 0.1)",
+                        tension: 0.4,
+                    },
+                    {
+                        label: "Protéines",
+                        data: proteines,
+                        borderColor: "#10b981",
+                        backgroundColor: "rgba(16, 185, 129, 0.1)",
+                        tension: 0.4,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: "#e5e7eb" },
+                    },
+                    x: {
+                        grid: { display: true },
+                    },
+                },
+            },
+        });
+
+        new Chart(hydratation, {
+            type: "bar",
+            data: {
+                labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                datasets: [{
+                    data: hydratation_ml,
+                    backgroundColor: '#0EA5E9',
+                },]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 0.3 },
+                        grid: { color: "#e5e7eb" },
+                    },
+                    x: {
+                        grid: { display: true },
+                    },
+                },
+            },
+        });
+    });
+</script>

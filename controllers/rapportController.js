@@ -1,17 +1,21 @@
+const Repas = require("../models/repas");
+
 const RapportController = {
-    afficherRapport: (req, res) => {
+    afficherRapport: async (req, res) => {
+        const userId = req.session && req.session.utilisateur ? req.session.utilisateur.id : null;
+        const statistiquesJour = await Repas.obtenirStatistiquesJour(userId);
+        const statistiquesSemaine = await Repas.obtenirStatistiquesSemaine(userId);
+        const countChaqueTypeRepasSemaine = await Repas.countChaqueTypeRepasSemaine(userId);
+        const ongletActif = req.params.onglet || 'tendances';
+        
         res.render('rapports', {
+            statistiquesJour,
+            statistiquesSemaine,
+            countChaqueTypeRepasSemaine,
             titre: 'Rapports - NutriTrack',
-            ongletActif: 'tendances',
+            ongletActif,
         });
     },
-
-    afficherRepas: (req, res) => {
-        res.render('rapports', {
-            titre: 'Rapports - NutriTrack',
-            ongletActif: 'repas',
-        });
-    }
 }
 
 module.exports = RapportController;
