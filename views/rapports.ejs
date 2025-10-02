@@ -108,42 +108,20 @@
                 <h3 class="text-lg font-semibold text-gray-900">Fréquence des repas</h3>
                 <p class="text-sm text-nutri-gray mb-4">Nombre de repas par type cette semaine</p>
                 <div class="flex flex-col gap-3">
-                    <div>
-                        <div class="flex justify-between">
-                            <span class="text-sm font-semibold">Petit-déjeuner</span>
-                            <span class="text-sm text-nutri-gray">6 Repas</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
-                            <div class="h-full w-[84%] bg-nutri-green rounded"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between">
-                            <span class="text-sm font-semibold">Déjeuner</span>
-                            <span class="text-sm text-nutri-gray">5 Repas</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
-                            <div class="h-full w-[42%] bg-nutri-green rounded"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between">
-                            <span class="text-sm font-semibold">Collation</span>
-                            <span class="text-sm text-nutri-gray">7 Repas</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
-                            <div class="h-full w-[100%] bg-nutri-green rounded"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between">
-                            <span class="text-sm font-semibold">Dîner</span>
-                            <span class="text-sm text-nutri-gray">4 Repas</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
-                            <div class="h-full w-[56%] bg-nutri-green rounded"></div>
-                        </div>
-                    </div>
+                    <% if(countChaqueTypeRepasSemaine !== 'undefined') { %>
+                        <% countChaqueTypeRepasSemaine.forEach(repas => { %>
+                            <div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm font-semibold"><%= repas.type_repas %></span>
+                                    <span class="text-sm text-nutri-gray"><%= repas.nombre_repas %> Repas</span>
+                                </div>
+                                <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
+                                    <div class="h-full w-[<%= Math.floor(repas.nombre_repas / 7 * 100) %>%] bg-nutri-green rounded"></div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                    
                 </div>
             </div>
             <div class="bg-white border border-gray-200 rounded-[16px] p-6">
@@ -264,7 +242,7 @@
                         ticks: { stepSize: 550 },
                         grid: { color: "#e5e7eb" },
                     },
-                    x: { grid: { display: false } },
+                    x: { grid: { display: true } },
                 },
             },
         });
@@ -311,7 +289,7 @@
                         grid: { color: "#e5e7eb" },
                     },
                     x: {
-                        grid: { display: false },
+                        grid: { display: true },
                     },
                 },
             },

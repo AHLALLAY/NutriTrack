@@ -62,6 +62,21 @@ class Repas {
         return resultats.map(repas => new Repas(repas));
     }
 
+    static async countChaqueTypeRepasSemaine(utilisateurId) {
+        const requete = `
+            SELECT 
+                type_repas,
+                COUNT(*) AS nombre_repas
+            FROM repas
+            WHERE utilisateur_id = ?
+            AND DATE(date_repas) >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+            GROUP BY type_repas;
+        `;
+
+        const resultats = await executerRequete(requete, [utilisateurId]);
+        return resultats;
+    }
+
     static async trouverRepasDuJour(utilisateurId, date = null) {
         const dateRecherche = date || new Date().toISOString().split('T')[0];
         const requete = `
