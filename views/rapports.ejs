@@ -1,0 +1,327 @@
+<div class="md:p-6">
+    <!-- Page Header  -->
+    <section class="flex flex-col gap-4 mb-8">
+        <!-- Header avec retour -->
+        <div class="flex justify-between items-center mb-8 md:hidden">
+            <div class="flex items-center group">
+                <a href="/tableau-de-bord" class="flex items-center text-gray-600 group-hover:text-nutri-green">
+                    <div
+                        class="w-8 h-8 bg-gray-100 rounded-lg group-hover:bg-green-100 flex items-center justify-center mr-3">
+                        <i class="ri-arrow-left-line text-sm"></i>
+                    </div>
+                    <span class="font-medium">Retour</span>
+                </a>
+            </div>
+        </div>
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-gray-900">Rapports & Analytics</h1>
+            <p class="text-nutri-gray">Analysez vos habitudes alimentaires et votre progression</p>
+        </div>
+    </section>
+
+    <!-- statistics section -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="border border-gray-200 rounded-[16px] p-6 flex justify-between">
+            <div>
+                <p class="text-nutri-gray">Calories / jour</p>
+                <span class="font-bold text-3xl"><%= statistiquesJour.total_calories ? Math.floor(statistiquesJour.total_calories) : '0' %></span>
+                <div class="flex items-center gap-1 mt-2">
+                    <img src="/img/arrow-up.svg" width="25" alt="">
+                    <span class="text-nutri-green">+4.1%</span>
+                </div>
+            </div>
+            <img src="/img/Calories.svg" width="50" alt="">
+        </div>
+        <div class="border border-gray-200 rounded-[16px] p-6 flex justify-between">
+            <div>
+                <p class="text-nutri-gray">Protéines / jour</p>
+                <span class="font-bold text-3xl"><%= statistiquesJour.total_proteines ? Math.floor(statistiquesJour.total_proteines) : '0' %>g</span>
+                <div class="flex items-center gap-1 mt-2">
+                    <img src="/img/arrow-up.svg" width="25" alt="">
+                    <span class="text-nutri-green">+6.6%</span>
+                </div>
+            </div>
+            <img src="/img/Protéines.svg" width="50" alt="">
+        </div>
+        <div class="border border-gray-200 rounded-[16px] p-6 flex justify-between">
+            <div>
+                <p class="text-nutri-gray">Glucides / jour</p>
+                <span class="font-bold text-3xl"><%= statistiquesJour.total_glucides ? Math.floor(statistiquesJour.total_glucides) : '0' %>g</span>
+                <div class="flex items-center gap-1 mt-2">
+                    <img src="/img/arrow-up.svg" width="25" alt="">
+                    <span class="text-nutri-green">+3.7%</span>
+                </div>
+            </div>
+            <img src="/img/Glucides.svg" width="50" alt="">
+        </div>
+        <div class="border border-gray-200 rounded-[16px] p-6 flex justify-between">
+            <div>
+                <p class="text-nutri-gray">Lipides / jour</p>
+                <span class="font-bold text-3xl"><%= statistiquesJour.total_lipides ? Math.floor(statistiquesJour.total_lipides) : '0' %>g</span>
+                <div class="flex items-center gap-1 mt-2">
+                    <img src="/img/arrow-up.svg" width="25" alt="">
+                    <span class="text-nutri-green">+4.6%</span>
+                </div>
+            </div>
+            <img src="/img/Lipides.svg" width="50" alt="">
+        </div>
+    </section>
+
+    <!-- Onglets -->
+    <div class="w-full mb-4 mt-8">
+        <div class="flex bg-[#F8FAFC] rounded-full p-1 w-full">
+            <a href="/rapports/tendances"
+                class="flex-1 px-6 py-3  text-sm font-medium text-center <%= ongletActif === 'tendances' ? 'bg-nutri-green rounded-full text-white shadow-sm' : 'bg-white rounded-l-full text-gray-600 hover:text-gray-900' %>">
+                Tendances
+            </a>
+            <a href="/rapports/repas"
+                class="flex-1 px-6 py-3  text-sm font-medium text-center <%= ongletActif === 'repas' ? 'bg-nutri-green rounded-full text-white shadow-sm' : 'bg-white rounded-r-full text-gray-600 hover:text-gray-900' %>">
+                Repas
+            </a>
+        </div>
+    </div>
+
+    <% if(ongletActif === 'tendances') { %>
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 my-3">
+            <div class="bg-white border border-gray-200 rounded-[16px] p-6">
+                <h3 class="text-lg font-semibold text-gray-900">Evolution des calories</h3>
+                <p class="text-sm text-nutri-gray mb-4">Consommation quotidienne sur 7 jours</p>
+                <canvas id="calorieChart" class="w-full h-80"></canvas>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-[16px] p-6">
+                <h3 class="text-lg font-semibold text-gray-900">Macronutriments</h3>
+                <p class="text-sm text-nutri-gray mb-4">Protéines, glucides et lipides</p>
+                <canvas id="macroChart" class="w-full h-80"></canvas>
+            </div>
+        </section>
+        <section>
+            <div class="bg-white border border-gray-200 rounded-[16px] p-6">
+                <h3 class="text-lg font-semibold text-gray-900">Hydratation quotidienne</h3>
+                <p class="text-sm text-nutri-gray mb-4">Consommation d'eau en litres</p>
+                <canvas id="hydratation" class="w-full h-full"></canvas>
+            </div>
+        </section>
+    <% } else if(ongletActif === 'repas') { %>
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-3 my-3">
+            <div class="bg-white border border-gray-200 rounded-[16px] p-6">
+                <h3 class="text-lg font-semibold text-gray-900">Fréquence des repas</h3>
+                <p class="text-sm text-nutri-gray mb-4">Nombre de repas par type cette semaine</p>
+                <div class="flex flex-col gap-3">
+                    <% if(countChaqueTypeRepasSemaine !== 'undefined') { %>
+                        <% countChaqueTypeRepasSemaine.forEach(repas => { %>
+                            <div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm font-semibold"><%= repas.type_repas %></span>
+                                    <span class="text-sm text-nutri-gray"><%= repas.nombre_repas %> Repas</span>
+                                </div>
+                                <div class="h-2 w-full rounded-full bg-green-300/50 mt-2">
+                                    <div class="h-full w-[<%= Math.floor(repas.nombre_repas / 7 * 100) %>%] bg-nutri-green rounded"></div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                    
+                </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-[16px] p-6">
+                <h3 class="text-lg font-semibold text-gray-900">Horaires de repas</h3>
+                <p class="text-sm text-nutri-gray mb-4">Vos habitudes alimentaires</p>
+                <div class="flex flex-col gap-4">
+                    <!-- Petit-déjeuner -->
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <p class="text-2xl">🌄</p>
+                            <div class="flex flex-col">
+                                <p>Petit-déjeuner</p>
+                                <p class="text-sm text-nutri-gray">Heure moyenne</p>
+                            </div>
+                        </div>
+                        <span class="bg-nutri-blue px-2 py-1 font-semibold rounded-full text-white text-xs">08:15</span>
+                    </div>
+
+                    <!-- Déjeuner -->
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <p class="text-2xl">☀️</p>
+                            <div class="flex flex-col">
+                                <p>Déjeuner</p>
+                                <p class="text-sm text-nutri-gray">Heure moyenne</p>
+                            </div>
+                        </div>
+                        <span class="bg-nutri-blue px-2 py-1 font-semibold rounded-full text-white text-xs">12:30</span>
+                    </div>
+
+                    <!-- Collation -->
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <p class="text-2xl">🍎</p>
+                            <div class="flex flex-col">
+                                <p>Collation</p>
+                                <p class="text-sm text-nutri-gray">Heure moyenne</p>
+                            </div>
+                        </div>
+                        <span class="bg-nutri-blue px-2 py-1 font-semibold rounded-full text-white text-xs">16:00</span>
+                    </div>
+
+                     <!-- Dîner -->
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <p class="text-2xl">🌙</p>
+                            <div class="flex flex-col">
+                                <p>Dîner</p>
+                                <p class="text-sm text-nutri-gray">Heure moyenne</p>
+                            </div>
+                        </div>
+                        <span class="bg-nutri-blue px-2 py-1 font-semibold rounded-full text-white text-xs">19:45</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <% } %>
+    
+</div>
+
+<script>
+    const statistiquesSemaine = <%- JSON.stringify(statistiquesSemaine) %>;
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const calorieChart = document.getElementById("calorieChart");
+        const macroChart = document.getElementById("macroChart");
+        const hydratation = document.getElementById("hydratation");
+
+        hydratation.style.height = '300px';
+
+        const days = ["lun.", "mar.", "mer.", "jeu.", "ven.", "sam.", "dim."];
+
+        const stateByDay = {};
+
+        statistiquesSemaine.forEach(item => {
+            const day = new Date(item.date);
+            const key = day.toLocaleDateString("fr-FR", { weekday: "short" });
+            
+            stateByDay[key] = {
+                calories: parseFloat(item.calories),
+                glucides: parseFloat(item.glucides),
+                lipides: parseFloat(item.lipides),
+                proteines: parseFloat(item.proteines),
+                hydratation_ml: parseFloat(item.hydratation_ml),
+            }
+        });
+
+
+        const calories = days.map(day => stateByDay[day]?.calories || 0);
+        const glucides = days.map(day => stateByDay[day]?.glucides || 0);
+        const lipides   = days.map(day => stateByDay[day]?.lipides || 0);
+        const proteines = days.map(day => stateByDay[day]?.proteines || 0);
+        const hydratation_ml = days.map(day => stateByDay[day]?.hydratation_ml || 0);
+        
+        new Chart(calorieChart, {
+            type: "line",
+            data: {
+                labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                datasets: [
+                    {
+                        label: "Calories",
+                        data: calories,
+                        fill: true,
+                        borderColor: "#16a34a",
+                        backgroundColor: "rgba(22, 163, 74, 0.1)",
+                        tension: 0.4,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 550 },
+                        grid: { color: "#e5e7eb" },
+                    },
+                    x: { grid: { display: true } },
+                },
+            },
+        });
+
+        new Chart(macroChart, {
+            type: "line",
+            data: {
+                labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                datasets: [
+                    {
+                        label: "Glucides",
+                        data: glucides,
+                        borderColor: "#3b82f6",
+                        backgroundColor: "rgba(59, 130, 246, 0.1)",
+                        tension: 0.4,
+                    },
+                    {
+                        label: "Lipides",
+                        data: lipides,
+                        borderColor: "#f97316",
+                        backgroundColor: "rgba(249, 115, 22, 0.1)",
+                        tension: 0.4,
+                    },
+                    {
+                        label: "Protéines",
+                        data: proteines,
+                        borderColor: "#10b981",
+                        backgroundColor: "rgba(16, 185, 129, 0.1)",
+                        tension: 0.4,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: "#e5e7eb" },
+                    },
+                    x: {
+                        grid: { display: true },
+                    },
+                },
+            },
+        });
+
+        new Chart(hydratation, {
+            type: "bar",
+            data: {
+                labels: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+                datasets: [{
+                    data: hydratation_ml,
+                    backgroundColor: '#0EA5E9',
+                },]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 0.3 },
+                        grid: { color: "#e5e7eb" },
+                    },
+                    x: {
+                        grid: { display: true },
+                    },
+                },
+            },
+        });
+    });
+</script>

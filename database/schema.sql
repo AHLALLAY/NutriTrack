@@ -64,9 +64,8 @@ CREATE TABLE IF NOT EXISTS repas (
     hydratation_ml INT DEFAULT 0, -- Quantité d'eau en millilitres
     index_glycemique INT,
     image_url VARCHAR(500),
-    type_repas ENUM('petit_dejeuner', 'collation_matin', 'dejeuner', 'collation_apres_midi', 'diner', 'collation_soir') NOT NULL,
+    type_repas ENUM('petit_dejeuner', 'dejeuner', 'collation', 'diner') NOT NULL,
     date_repas TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateurs(id) ON DELETE CASCADE,
     INDEX idx_utilisateur_repas (utilisateur_id),
     INDEX idx_date_repas (date_repas),
