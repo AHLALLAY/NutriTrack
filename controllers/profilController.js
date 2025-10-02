@@ -53,7 +53,7 @@ const profilController = {
 
         const donneesProfil = {
             typeProfil: typeProfil || 'perte_poids',
-            objectif: objectifPoids ? `Atteindre ${objectifPoids}kg` : '',
+            objectif: objectifPoids ? `Atteindre ${parseFloat(objectifPoids).toFixed(2)}kg` : '',
             poids: parseFloat(poids),
             taille: parseFloat(taille),
             age: parseInt(age),
@@ -62,7 +62,7 @@ const profilController = {
             besoinsProteines: besoins.proteines,
             besoinsGlucides: besoins.glucides,
             besoinsLipides: besoins.lipides,
-            objectifPoids: objectifPoids ? parseFloat(objectifPoids) : null
+            objectifPoids: objectifPoids ? parseFloat(parseFloat(objectifPoids).toFixed(2)) : null
         };
 
         // Sauvegarder
