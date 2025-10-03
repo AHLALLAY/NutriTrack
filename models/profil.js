@@ -103,8 +103,8 @@ class Profil {
     calculerProgression() {
         if (!this.poids || !this.objectifPoids) return null;
         
-        const poidsActuel = this.poids;
-        const poidsObjectif = this.objectifPoids;
+        const poidsActuel = parseFloat(this.poids);
+        const poidsObjectif = parseFloat(this.objectifPoids);
         const difference = poidsActuel - poidsObjectif;
         
         let progression = 0;
@@ -117,9 +117,9 @@ class Profil {
         }
         
         return {
-            poidsObjectif: poidsObjectif,
-            poidsActuel: poidsActuel,
-            difference: Math.abs(difference),
+            poidsObjectif: parseFloat(poidsObjectif.toFixed(2)),
+            poidsActuel: parseFloat(poidsActuel.toFixed(2)),
+            difference: parseFloat(Math.abs(difference).toFixed(2)),
             progression: Math.round(progression)
         };
     }
@@ -141,8 +141,8 @@ class Profil {
             utilisateurId: this.utilisateurId,
             typeProfil: this.typeProfil,
             objectif: this.objectif,
-            objectifPoids: this.objectifPoids,
-            poids: this.poids,
+            objectifPoids: this.objectifPoids ? parseFloat(this.objectifPoids).toFixed(2) : null,
+            poids: this.poids ? parseFloat(this.poids).toFixed(2) : null,
             taille: this.taille,
             age: this.age,
             activitePhysique: this.activitePhysique,

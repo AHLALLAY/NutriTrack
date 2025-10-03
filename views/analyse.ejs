@@ -25,12 +25,12 @@
                 <p class="text-gray-600 mb-6">L'IA analysera automatiquement les ingrédients et nutriments</p>
 
                 <!-- Zone d'upload -->
-                <div class="border-2 border-dashed border-green-200 bg-green-50 rounded-xl p-8 text-center hover:border-green-300 transition-colors cursor-pointer" id="upload-zone">
+                <div class="border-2 border-dashed border-green-200 bg-green-50 rounded-xl p-8 text-center transition-colors" id="upload-zone">
                     <div class="flex flex-col items-center">
                         <i class="ri-upload-cloud-2-line text-4xl text-nutri-green mb-4"></i>
                         <h3 class="text-lg font-medium text-gray-900 mb-2">Téléchargez une photo</h3>
-                        <p class="text-gray-600 mb-4">Glissez-déposez ou cliquez pour sélectionner</p>
-                        <button type="button" class="bg-nutri-green text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
+                        <p class="text-gray-600 mb-4">Glissez-déposez ou cliquez sur le bouton ci-dessous</p>
+                        <button type="button" id="browse-btn" class="bg-nutri-green text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
                             <i class="ri-upload-line mr-2"></i>
                             Parcourir
                         </button>
@@ -117,4 +117,4 @@
         <% } %>
     </main>
 
-<script src="../public/js/analyse.js"></script>
+<script src="/js/analyse.js"></script>
