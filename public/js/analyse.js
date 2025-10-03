@@ -1,14 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     const uploadZone = document.getElementById('upload-zone');
     const photoInput = document.getElementById('photo-input');
+    const browseBtn = document.getElementById('browse-btn');
     const imagePreview = document.getElementById('image-preview');
     const previewImg = document.getElementById('preview-img');
     const analyzeBtn = document.getElementById('analyze-btn');
     const removeBtn = document.getElementById('remove-btn');
 
-    // Gestion du clic sur la zone d'upload
-    uploadZone.addEventListener('click', () => {
+    // Vérification de débogage
+    console.log('Éléments trouvés:', {
+        uploadZone: !!uploadZone,
+        photoInput: !!photoInput,
+        browseBtn: !!browseBtn,
+        imagePreview: !!imagePreview,
+        previewImg: !!previewImg,
+        analyzeBtn: !!analyzeBtn,
+        removeBtn: !!removeBtn
+    });
+
+    // Fonction pour ouvrir le sélecteur de fichiers
+    function openFileSelector() {
         photoInput.click();
+    }
+
+    // Gestion du clic sur le bouton "Parcourir"
+    browseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openFileSelector();
     });
 
     // Gestion du drag & drop
