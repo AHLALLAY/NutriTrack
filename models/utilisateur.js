@@ -10,10 +10,8 @@ class Utilisateur {
         this.dateCreation = donnees.date_creation || donnees.dateCreation;
     }
 
-    // Créer un nouvel utilisateur
     static async creer(donneesUtilisateur) {
         try {
-            // Vérifier si l'email existe déjà
             const requeteVerification = `
                 SELECT COUNT(*) as count
                 FROM utilisateurs 
@@ -25,10 +23,8 @@ class Utilisateur {
                 throw new Error('Cet email est déjà utilisé');
             }
 
-            // Hasher le mot de passe
             const motDePasseHashe = await bcrypt.hash(donneesUtilisateur.motDePasse, 12);
 
-            // Créer l'utilisateur
             const requeteCreation = `
                 INSERT INTO utilisateurs (nom_complet, email, mot_de_passe, date_creation)
                 VALUES (?, ?, ?, NOW())
@@ -44,12 +40,12 @@ class Utilisateur {
                 nomComplet: donneesUtilisateur.nomComplet,
                 email: donneesUtilisateur.email
             };
+
         } catch (erreur) {
             throw new Error(`Erreur lors de la création de l'utilisateur: ${erreur.message}`);
         }
     }
 
-    // Trouver un utilisateur par email
     static async trouverParEmail(email) {
         try {
             const requete = `
@@ -64,7 +60,6 @@ class Utilisateur {
         }
     }
 
-    // Trouver un utilisateur par ID
     static async trouverParId(id) {
         try {
             const requete = `
@@ -79,7 +74,6 @@ class Utilisateur {
         }
     }
 
-    // Vérifier le mot de passe
     async verifierMotDePasse(motDePasse) {
         try {
             return await bcrypt.compare(motDePasse, this.motDePasse);
@@ -88,9 +82,6 @@ class Utilisateur {
         }
     }
 
-
-
-    // Obtenir les données publiques (sans mot de passe)
     obtenirDonneesPubliques() {
         return {
             id: this.id,
@@ -99,7 +90,6 @@ class Utilisateur {
             dateCreation: this.dateCreation
         };
     }
-
 }
 
 module.exports = Utilisateur;
