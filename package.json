@@ -8,7 +8,7 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.2.1",
+    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.5.0",
     "dotenv": "^16.3.1",
@@ -17,9 +17,10 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.2",
     "express-validator": "^7.0.1",
-    "langchain": "^0.3.34",
+    "langchain": "^0.3.35",
     "multer": "^1.4.5-lts.1",
-    "mysql2": "^3.6.0"
+    "mysql2": "^3.6.0",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
