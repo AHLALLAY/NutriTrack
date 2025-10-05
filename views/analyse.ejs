@@ -2,7 +2,7 @@
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- En-tête de page -->
         <div class="mb-8">
-            <div class="flex items-center mb-4">
+            <div class="flex items-center mb-4 md:hidden">
                 <a href="/dashboard" class="flex items-center text-gray-600 hover:text-nutri-green mr-4">
                     <i class="ri-arrow-left-line mr-2"></i>
                     <span class="font-medium">Retour</span>
@@ -40,11 +40,17 @@
 
                 <!-- Aperçu de l'image -->
                 <div id="image-preview" class="hidden mt-4">
-                    <img id="preview-img" class="w-full h-64 object-cover rounded-lg" alt="Aperçu">
+                    <div class="w-full h-64 rounded-lg overflow-hidden">
+                        <img id="preview-img" class="w-full h-full object-contain" alt="Aperçu">
+                    </div>
                     <div class="mt-4 flex space-x-3">
                         <button id="analyze-btn" class="bg-nutri-green text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
                             <i class="ri-magic-line mr-2"></i>
                             Analyser
+                        </button>
+                        <button id="save-btn" class="bg-nutri-green hidden text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors flex items-center">
+                            <i class="ri-save-3-line mr-2"></i>
+                            Save
                         </button>
                         <button id="remove-btn" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors">
                             Supprimer
@@ -58,29 +64,22 @@
                 <!-- Conseils pour une meilleure analyse -->
                 <div class="bg-white border border-gray-200 rounded-2xl p-6">
                     <div class="flex items-center mb-4">
-                        <i class="ri-lightbulb-line text-yellow-500 text-xl mr-3"></i>
-                        <h2 class="text-xl font-semibold text-gray-900">Conseils pour une meilleure analyse</h2>
+                        <i class="ri-information-line text-yellow-500 text-xl mr-3"></i>
+                        <h2 class="text-xl font-semibold text-gray-900">Détails du repas</h2>
                     </div>
                     <div class="space-y-4">
-                        <div class="flex items-start">
-                            <i class="ri-check-line text-green-500 text-lg mr-3 mt-0.5"></i>
+                        <div class="flex flex-col gap-4">
                             <div>
-                                <h3 class="font-medium text-gray-900">Éclairage optimal</h3>
-                                <p class="text-sm text-gray-600">Prenez la photo sous un bon éclairage naturel</p>
+                                <h3 class="font-medium text-gray-900">Description : </h3>
+                                <p class="text-sm text-gray-600" id="meal-description">Prenez une photo pour analyser votre repas</p>
                             </div>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="ri-check-line text-green-500 text-lg mr-3 mt-0.5"></i>
                             <div>
-                                <h3 class="font-medium text-gray-900">Vue d'ensemble</h3>
-                                <p class="text-sm text-gray-600">Incluez tous les éléments du repas dans le cadre</p>
+                                <h3 class="font-medium text-gray-900">Ingrédients : </h3>
+                                <p class="text-sm text-gray-600" id="meal-ingredients">Les ingrédients seront identifiés automatiquement</p>
                             </div>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="ri-check-line text-green-500 text-lg mr-3 mt-0.5"></i>
                             <div>
-                                <h3 class="font-medium text-gray-900">Angle direct</h3>
-                                <p class="text-sm text-gray-600">Photographie de face ou légèrement au-dessus</p>
+                                <h3 class="font-medium text-gray-900">Valeurs nutritionnelles : </h3>
+                                <p class="text-sm text-gray-600" id="meal-nutrition">Les valeurs nutritionnelles seront calculées</p>
                             </div>
                         </div>
                     </div>
@@ -93,6 +92,62 @@
                         <h2 class="text-xl font-semibold text-gray-900">IA Nutritionnelle</h2>
                     </div>
                     <p class="text-gray-600">Notre intelligence artificielle reconnaît plus de 10,000 aliments et calcule automatiquement les valeurs nutritionnelles précises.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section d'analyse détaillée -->
+        <div class="bg-white border border-gray-200 rounded-2xl p-6 mt-6" id="detailed-analysis" style="display: none;">
+            <div class="flex items-center mb-4">
+                <i class="ri-information-line text-blue-500 text-xl mr-3"></i>
+                <h2 class="text-xl font-semibold text-gray-900">Analyse détaillée</h2>
+            </div>
+            <div class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="font-medium text-gray-900">Type de repas:</h3>
+                        <p class="text-sm text-gray-600" id="meal-type">Non déterminé</p>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-900">Taille de portion:</h3>
+                        <p class="text-sm text-gray-600" id="portion-size">Non déterminée</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-900">Score de santé:</h3>
+                    <div class="flex items-center mt-2">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-green-600 h-2.5 rounded-full" id="health-score-bar" style="width: 0%"></div>
+                        </div>
+                        <span class="ml-2 text-sm text-gray-600" id="health-score-text">N/A/10</span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-900">Recommandations:</h3>
+                    <ul class="text-sm text-gray-600 mt-2" id="recommendations-list">
+                        <li>• Aucune recommandation disponible</li>
+                    </ul>
+                </div>
+                <!-- Gap Detection Section -->
+                <div id="gap-detection-section" class="mt-6 hidden">
+                    <h3 class="font-medium text-blue-700 mb-2">Écarts nutritionnels détectés</h3>
+                    <p class="text-sm text-blue-800 mb-2" id="gap-detection-summary"></p>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-xs text-left text-gray-700 border">
+                            <thead class="bg-blue-50">
+                                <tr>
+                                    <th class="px-2 py-1">Nutriment</th>
+                                    <th class="px-2 py-1">Attendu</th>
+                                    <th class="px-2 py-1">Réel</th>
+                                    <th class="px-2 py-1">Écart</th>
+                                    <th class="px-2 py-1">Commentaire</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gap-detection-details">
+                                
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
